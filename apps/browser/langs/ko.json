@@ -1,0 +1,60 @@
+{
+    "app": {
+        "name": "Sabre Browser",
+        "tagline": "빠르다. 안전하다. 흔들리지 않는다."
+    },
+    "toolbar": {
+        "back": "뒤로",
+        "forward": "앞으로",
+        "reload": "새로고침",
+        "stop": "중지",
+        "home": "홈",
+        "new_tab": "새 탭",
+        "address_bar_placeholder": "검색하거나 주소를 입력하세요"
+    },
+    "tabs": {
+        "new_tab_title": "새 탭",
+        "incognito_title": "시크릿",
+        "close": "탭 닫기",
+        "close_all": "모든 탭 닫기"
+    },
+    "newtab": {
+        "greeting_morning": "좋은 아침입니다.",
+        "greeting_afternoon": "좋은 오후입니다.",
+        "greeting_evening": "좋은 저녁입니다.",
+        "search_placeholder": "검색_",
+        "link_mask_button": "링크 마스크"
+    },
+    "incognito": {
+        "title": "시크릿 모드",
+        "description": "비공개로 브라우징 중입니다. 기록, 쿠키, 흔적이 없습니다.",
+        "warning": "네트워크 제공업체에게는 활동이 보일 수 있습니다."
+    },
+    "settings": {
+        "title": "설정",
+        "language": "언어",
+        "search_engine": "검색 엔진",
+        "adblock": "광고 차단기",
+        "adblock_enabled": "활성화됨",
+        "adblock_disabled": "비활성화됨",
+        "tor": "Tor 라우팅",
+        "tor_enabled": "연결됨",
+        "tor_disabled": "연결 끊김",
+        "theme": "테마",
+        "about": "Sabre 정보"
+    },
+    "errors": {
+        "no_internet": "인터넷 연결이 없습니다.",
+        "page_not_found": "페이지를 찾을 수 없습니다.",
+        "connection_failed": "연결에 실패했습니다.",
+        "retrying": "백그라운드에서 재시도 중..."
+    },
+    "devtools": {
+        "title": "개발자 도구",
+        "network": "네트워크",
+        "console": "콘솔",
+        "dom": "DOM",
+        "storage": "저장소",
+        "clear": "지우기"
+    }
+}

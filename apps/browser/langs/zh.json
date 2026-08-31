@@ -1,0 +1,60 @@
+{
+    "app": {
+        "name": "Sabre Browser",
+        "tagline": "快速。私密。坚不可摧。"
+    },
+    "toolbar": {
+        "back": "后退",
+        "forward": "前进",
+        "reload": "刷新",
+        "stop": "停止",
+        "home": "主页",
+        "new_tab": "新标签页",
+        "address_bar_placeholder": "搜索或输入网址"
+    },
+    "tabs": {
+        "new_tab_title": "新标签页",
+        "incognito_title": "隐身",
+        "close": "关闭标签页",
+        "close_all": "关闭所有标签页"
+    },
+    "newtab": {
+        "greeting_morning": "早上好。",
+        "greeting_afternoon": "下午好。",
+        "greeting_evening": "晚上好。",
+        "search_placeholder": "搜索_",
+        "link_mask_button": "链接掩码"
+    },
+    "incognito": {
+        "title": "隐身模式",
+        "description": "您正在私密浏览。没有历史记录、Cookie或痕迹。",
+        "warning": "您的网络提供商可能仍能看到您的活动。"
+    },
+    "settings": {
+        "title": "设置",
+        "language": "语言",
+        "search_engine": "搜索引擎",
+        "adblock": "广告拦截",
+        "adblock_enabled": "已启用",
+        "adblock_disabled": "已禁用",
+        "tor": "Tor 路由",
+        "tor_enabled": "已连接",
+        "tor_disabled": "已断开",
+        "theme": "主题",
+        "about": "关于 Sabre"
+    },
+    "errors": {
+        "no_internet": "没有网络连接。",
+        "page_not_found": "页面未找到。",
+        "connection_failed": "连接失败。",
+        "retrying": "正在后台重试..."
+    },
+    "devtools": {
+        "title": "开发者工具",
+        "network": "网络",
+        "console": "控制台",
+        "dom": "DOM",
+        "storage": "存储",
+        "clear": "清除"
+    }
+} 

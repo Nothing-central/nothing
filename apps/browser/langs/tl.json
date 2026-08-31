@@ -1,0 +1,60 @@
+{
+    "app": {
+        "name": "Sabre Browser",
+        "tagline": "Mabilis. Pribado. Matibay."
+    },
+    "toolbar": {
+        "back": "Bumalik",
+        "forward": "Sulong",
+        "reload": "I-reload",
+        "stop": "Ihinto",
+        "home": "Home",
+        "new_tab": "Bagong Tab",
+        "address_bar_placeholder": "Maghanap o maglagay ng address"
+    },
+    "tabs": {
+        "new_tab_title": "Bagong Tab",
+        "incognito_title": "Incognito",
+        "close": "Isara ang Tab",
+        "close_all": "Isara Lahat ng Tab"
+    },
+    "newtab": {
+        "greeting_morning": "Magandang umaga.",
+        "greeting_afternoon": "Magandang tanghali.",
+        "greeting_evening": "Magandang gabi.",
+        "search_placeholder": "MAGHANAP_",
+        "link_mask_button": "LINK MASK"
+    },
+    "incognito": {
+        "title": "Incognito Mode",
+        "description": "Nagba-browse ka nang pribado. Walang kasaysayan, cookies, o bakas.",
+        "warning": "Ang iyong aktibidad ay maaaring makita ng iyong network provider."
+    },
+    "settings": {
+        "title": "Mga Setting",
+        "language": "Wika",
+        "search_engine": "Search Engine",
+        "adblock": "Ad Blocker",
+        "adblock_enabled": "Naka-enable",
+        "adblock_disabled": "Naka-disable",
+        "tor": "Tor Routing",
+        "tor_enabled": "Nakakonekta",
+        "tor_disabled": "Hindi Nakakonekta",
+        "theme": "Theme",
+        "about": "Tungkol sa Sabre"
+    },
+    "errors": {
+        "no_internet": "Walang koneksyon sa internet.",
+        "page_not_found": "Hindi mahanap ang pahina.",
+        "connection_failed": "Nabigo ang koneksyon.",
+        "retrying": "Muling sinusubukan sa background..."
+    },
+    "devtools": {
+        "title": "Developer Tools",
+        "network": "Network",
+        "console": "Console",
+        "dom": "DOM",
+        "storage": "Storage",
+        "clear": "I-clear"
+    }
+}
