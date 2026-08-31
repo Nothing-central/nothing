@@ -1,11 +1,15 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QtWebEngineQuick/QtWebEngineQuick>
 #include <QUrl>
 
 int main(int argc, char *argv[]) {
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
         Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+
+    // Must be called before QGuiApplication
+    QtWebEngineQuick::initialize();
 
     QGuiApplication app(argc, argv);
     app.setApplicationName("Sabre Browser");
@@ -14,12 +18,9 @@ int main(int argc, char *argv[]) {
 
     QQmlApplicationEngine engine;
 
-    // Expose build mode to QML
-    // Later this will be set by CMake build flags
     engine.rootContext()->setContextProperty("BUILD_MODE", "SABRE");
     engine.rootContext()->setContextProperty("APP_VERSION", "0.1.0.0");
 
-    // Start with splash screen
     engine.load(QUrl::fromLocalFile(
         QString(SOURCE_DIR) + "/ui/pages/SplashScreen.qml"
     ));

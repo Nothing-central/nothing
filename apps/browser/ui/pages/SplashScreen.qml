@@ -427,8 +427,10 @@ Window {
                 cursorShape: accepted ? Qt.PointingHandCursor : Qt.ArrowCursor
                 onClicked: {
                     if (accepted) {
-                        // TODO: save selectedLang, close splash, open main browser
-                        console.log("Launching Sabre with lang:", selectedLang)
+                        var component = Qt.createComponent("NormalWindow.qml")
+                        var window = component.createObject(null)
+                        window.show()
+                        splashRoot.close()
                     }
                 }
             }
