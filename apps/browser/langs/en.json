@@ -1,0 +1,60 @@
+{
+    "app": {
+        "name": "Sabre Browser",
+        "tagline": "Fast. Private. Unyielding."
+    },
+    "toolbar": {
+        "back": "Back",
+        "forward": "Forward",
+        "reload": "Reload",
+        "stop": "Stop",
+        "home": "Home",
+        "new_tab": "New Tab",
+        "address_bar_placeholder": "Search or enter address"
+    },
+    "tabs": {
+        "new_tab_title": "New Tab",
+        "incognito_title": "Incognito",
+        "close": "Close Tab",
+        "close_all": "Close All Tabs"
+    },
+    "newtab": {
+        "greeting_morning": "Good morning.",
+        "greeting_afternoon": "Good afternoon.",
+        "greeting_evening": "Good evening.",
+        "search_placeholder": "SEARCH_",
+        "link_mask_button": "LINK MASK"
+    },
+    "incognito": {
+        "title": "Incognito Mode",
+        "description": "You are browsing privately. No history, no cookies, no traces.",
+        "warning": "Your activity may still be visible to your network provider."
+    },
+    "settings": {
+        "title": "Settings",
+        "language": "Language",
+        "search_engine": "Search Engine",
+        "adblock": "Ad Blocker",
+        "adblock_enabled": "Enabled",
+        "adblock_disabled": "Disabled",
+        "tor": "Tor Routing",
+        "tor_enabled": "Connected",
+        "tor_disabled": "Disconnected",
+        "theme": "Theme",
+        "about": "About Sabre"
+    },
+    "errors": {
+        "no_internet": "No internet connection.",
+        "page_not_found": "Page not found.",
+        "connection_failed": "Connection failed.",
+        "retrying": "Retrying in the background..."
+    },
+    "devtools": {
+        "title": "Developer Tools",
+        "network": "Network",
+        "console": "Console",
+        "dom": "DOM",
+        "storage": "Storage",
+        "clear": "Clear"
+    }
+} 

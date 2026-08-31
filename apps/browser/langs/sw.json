@@ -1,0 +1,60 @@
+{
+    "app": {
+        "name": "Sabre Browser",
+        "tagline": "Haraka. Faragha. Imara."
+    },
+    "toolbar": {
+        "back": "Rudi",
+        "forward": "Endelea",
+        "reload": "Pakia Tena",
+        "stop": "Simama",
+        "home": "Nyumbani",
+        "new_tab": "Kichupo Kipya",
+        "address_bar_placeholder": "Tafuta au ingiza anwani"
+    },
+    "tabs": {
+        "new_tab_title": "Kichupo Kipya",
+        "incognito_title": "Faragha",
+        "close": "Funga Kichupo",
+        "close_all": "Funga Vichupo Vyote"
+    },
+    "newtab": {
+        "greeting_morning": "Habari za asubuhi.",
+        "greeting_afternoon": "Habari za mchana.",
+        "greeting_evening": "Habari za jioni.",
+        "search_placeholder": "TAFUTA_",
+        "link_mask_button": "FICHA KIUNGO"
+    },
+    "incognito": {
+        "title": "Hali ya Faragha",
+        "description": "Unatumia kivinjari kwa faragha. Hakuna historia, kuki, wala alama.",
+        "warning": "Shughuli yako inaweza kuonekana kwa mtoa huduma wako wa mtandao."
+    },
+    "settings": {
+        "title": "Mipangilio",
+        "language": "Lugha",
+        "search_engine": "Injini ya Utafutaji",
+        "adblock": "Kizuizi cha Matangazo",
+        "adblock_enabled": "Imewashwa",
+        "adblock_disabled": "Imezimwa",
+        "tor": "Uelekezaji wa Tor",
+        "tor_enabled": "Imeunganishwa",
+        "tor_disabled": "Imekatwa",
+        "theme": "Mandhari",
+        "about": "Kuhusu Sabre"
+    },
+    "errors": {
+        "no_internet": "Hakuna muunganisho wa intaneti.",
+        "page_not_found": "Ukurasa haukupatikana.",
+        "connection_failed": "Muunganisho umeshindwa.",
+        "retrying": "Inajaribu tena nyuma ya pazia..."
+    },
+    "devtools": {
+        "title": "Zana za Msanidi",
+        "network": "Mtandao",
+        "console": "Konsoli",
+        "dom": "DOM",
+        "storage": "Hifadhi",
+        "clear": "Futa"
+    }
+} 
