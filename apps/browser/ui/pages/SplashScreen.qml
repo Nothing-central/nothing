@@ -427,6 +427,8 @@ Window {
                 cursorShape: accepted ? Qt.PointingHandCursor : Qt.ArrowCursor
                 onClicked: {
                     if (accepted) {
+                        Lang.setLang(selectedLang)
+                        Lang.markLaunched()
                         var component = Qt.createComponent("NormalWindow.qml")
                         var window = component.createObject(null)
                         window.show()

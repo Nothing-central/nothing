@@ -3,12 +3,13 @@
 #include <QQmlContext>
 #include <QtWebEngineQuick/QtWebEngineQuick>
 #include <QUrl>
+#include "LangManager.h"
+#include "FingerprintController.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
         Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 
-    // Must be called before QGuiApplication
     QtWebEngineQuick::initialize();
 
     QGuiApplication app(argc, argv);
@@ -16,14 +17,25 @@ int main(int argc, char *argv[]) {
     app.setOrganizationName("Ernest Tech House");
     app.setApplicationVersion("0.1.0.0");
 
-    QQmlApplicationEngine engine;
+    LangManager langManager;
+    FingerprintController fingerprintController;
 
+    QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("Lang", &langManager);
+    engine.rootContext()->setContextProperty("Fingerprint", &fingerprintController);
+    engine.rootContext()->setContextProperty("isFirstLaunch", langManager.isFirstLaunch());
     engine.rootContext()->setContextProperty("BUILD_MODE", "SABRE");
     engine.rootContext()->setContextProperty("APP_VERSION", "0.1.0.0");
 
-    engine.load(QUrl::fromLocalFile(
-        QString(SOURCE_DIR) + "/ui/pages/SplashScreen.qml"
-    ));
+    if (langManager.isFirstLaunch()) {
+        engine.load(QUrl::fromLocalFile(
+            QString(SOURCE_DIR) + "/ui/pages/SplashScreen.qml"
+        ));
+    } else {
+        engine.load(QUrl::fromLocalFile(
+            QString(SOURCE_DIR) + "/ui/pages/NormalWindow.qml"
+        ));
+    }
 
     if (engine.rootObjects().isEmpty())
         return -1;

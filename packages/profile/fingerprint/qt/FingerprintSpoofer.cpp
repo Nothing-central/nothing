@@ -2,9 +2,8 @@
 #include "profile_to_json.h"
 #include <QJsonDocument>
 
-QString FingerprintSpoofer::injectionScript(const std::string& origin) const {
-    Key32 perSiteKey = keys_.PerSiteKey(origin);
-    QString perOriginKeyHex = KeyToHex(perSiteKey);
+QString FingerprintSpoofer::injectionScript() const {
+    QString sessionKeyHex = KeyToHex(keys_.RawSessionKey());
 
     QJsonDocument navDoc(NavigatorProfileToJson(nav_));
     QJsonDocument scrDoc(ScreenProfileToJson(scr_));
@@ -18,7 +17,7 @@ QString FingerprintSpoofer::injectionScript(const std::string& origin) const {
     script += "const SCR = " + scrDoc.toJson(QJsonDocument::Compact) + ";\n";
     script += "const GL = " + glDoc.toJson(QJsonDocument::Compact) + ";\n";
     script += "const AUDIO = " + audioDoc.toJson(QJsonDocument::Compact) + ";\n";
-    script += "const PER_ORIGIN_KEY_HEX = '" + perOriginKeyHex + "';\n";
+    script += "const SESSION_KEY_HEX = '" + sessionKeyHex + "';\n";
 
     // JS crypto (HMAC-SHA256 + XorShift128Plus) still has to be reimplemented here —
     // it runs inside the page, your C++ SessionKeyStore/site_key.cpp can't reach in.
@@ -71,7 +70,8 @@ function XorShift128Plus(bytes){
     const MASK=(1n<<64n)-1n;
     this.next=function(){ let x=s0; const y=s1; s0=y; x=(x^(x<<23n))&MASK; x=x^(x>>17n); x=x^y^(y>>26n); s1=x; return (x+y)&MASK; };
 }
-const PER_ORIGIN_KEY = hexToBytes(PER_ORIGIN_KEY_HEX);
+const SESSION_KEY = hexToBytes(SESSION_KEY_HEX);
+const PER_ORIGIN_KEY = hmacSha256(SESSION_KEY, new TextEncoder().encode(location.origin));
 
 try {
     const _origToString = Function.prototype.toString;

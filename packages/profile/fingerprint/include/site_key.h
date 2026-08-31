@@ -65,6 +65,12 @@ public:
         return HmacSha256(PerSiteKey(origin), content, len);
     }
 
+    // Exposes the raw session key so the Qt/JS layer can derive per-origin
+    // keys itself at runtime — needed since FingerprintSpoofer now builds
+    // one session-wide script instead of one per navigation/origin, and the
+    // origin isn't known until the page runs in the browser process.
+    const Key32& RawSessionKey() const { return sessionUuid_; }
+
 private:
     Key32 sessionUuid_;
     std::unordered_map<std::string, Key32> cache_;

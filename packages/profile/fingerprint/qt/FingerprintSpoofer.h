@@ -6,9 +6,10 @@
 #include "site_key.h"
 #include <QString>
 
-// Takes already-generated identity data + a SessionKeyStore (from your
-// existing site_key.h) and produces the JS to inject for one navigation.
-// No identity generation happens here — that's your existing structs' job.
+// Takes already-generated identity data + a SessionKeyStore and produces
+// ONE script for the whole session. No origin is baked in — the script
+// derives its per-origin noise key itself, at runtime, from location.origin.
+// Set this once on a WebEngineProfile before any tab loads.
 class FingerprintSpoofer {
 public:
     FingerprintSpoofer(const NavigatorProfile& nav, const ScreenProfile& scr,
@@ -16,7 +17,7 @@ public:
                         SessionKeyStore& keys)
         : nav_(nav), scr_(scr), gl_(gl), audio_(audio), keys_(keys) {}
 
-    QString injectionScript(const std::string& origin) const;
+    QString injectionScript() const;
 
 private:
     const NavigatorProfile& nav_;

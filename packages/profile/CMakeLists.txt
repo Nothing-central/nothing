@@ -44,19 +44,20 @@ target_include_directories(nothing-fingerprint PUBLIC
 
 # ─── identity ────────────────────────────────────────────────────
 # Owns IdentityBundle / IdentityManager — depends on fingerprint core only.
+# NOTE: headers live flat under identity/, not identity/include/.
 set(IDENTITY_SOURCES
     identity/src/identity_manager.cpp
 )
 
 set(IDENTITY_HEADERS
-    identity/include/identity_bundle.h
-    identity/include/identity_manager.h
+    identity/identity_bundle.h
+    identity/identity_manager.h
 )
 
 add_library(nothing-identity STATIC ${IDENTITY_SOURCES})
 
 target_include_directories(nothing-identity PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/identity/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/identity
 )
 
 target_link_libraries(nothing-identity PUBLIC nothing-fingerprint)
