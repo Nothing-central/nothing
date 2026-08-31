@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/SabreBrowser">
+    <file alias="qmldir">/home/Moonbug/dev/nothing/apps/browser/build/SabreBrowser/qmldir</file>
+  </qresource>
+</RCC>
+

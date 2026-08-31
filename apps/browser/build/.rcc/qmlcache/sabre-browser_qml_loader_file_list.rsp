@@ -1,0 +1,11 @@
+--resource
+/home/Moonbug/dev/nothing/apps/browser/build/.qt/rcc/qmake_SabreBrowser.qrc
+--resource
+/home/Moonbug/dev/nothing/apps/browser/build/.qt/rcc/sabre-browser_raw_qml_0.qrc
+/SabreBrowser/ui/pages/SplashScreen.qml
+/SabreBrowser/ui/pages/NormalWindow.qml
+/SabreBrowser/ui/pages/IncognitoWindow.qml
+/SabreBrowser/ui/components/Toolbar.qml
+/SabreBrowser/ui/components/TabBar.qml
+/SabreBrowser/ui/components/AddressBar.qml
+/SabreBrowser/ui/components/NewTabPage.qml
