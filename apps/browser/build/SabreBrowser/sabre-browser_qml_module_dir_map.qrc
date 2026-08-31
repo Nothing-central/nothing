@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/">
-    <file alias="/SabreBrowser">/home/Moonbug/dev/nothing/apps/browser/build/SabreBrowser</file>
-
-  </qresource>
-</RCC>
