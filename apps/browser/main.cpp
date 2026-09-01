@@ -1,44 +1,40 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include <QQmlContext>
-#include <QtWebEngineQuick/QtWebEngineQuick>
-#include <QUrl>
+// ═══════════════════════════════════════════ main.cpp ═════════════════════════════════════════════════
+#include <QApplication>
+#include <QtWebEngineCore/QWebEngineProfile>
+#include <QtWebEngineCore/QWebEngineScript>
+#include <QtWebEngineCore/QWebEngineScriptCollection>
+#include <QtWebEngineWidgets/QWebEngineView>
 #include "LangManager.h"
 #include "FingerprintController.h"
+#include "SearchController.h"
+#include "NormalWindow.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
         Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 
-    QtWebEngineQuick::initialize();
-
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
     app.setApplicationName("Sabre Browser");
     app.setOrganizationName("Ernest Tech House");
     app.setApplicationVersion("0.1.0.0");
 
     LangManager langManager;
+    SearchController searchController;
     FingerprintController fingerprintController;
 
-    QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("Lang", &langManager);
-    engine.rootContext()->setContextProperty("Fingerprint", &fingerprintController);
-    engine.rootContext()->setContextProperty("isFirstLaunch", langManager.isFirstLaunch());
-    engine.rootContext()->setContextProperty("BUILD_MODE", "SABRE");
-    engine.rootContext()->setContextProperty("APP_VERSION", "0.1.0.0");
+    QWebEngineProfile* sessionProfile = new QWebEngineProfile("default", &app);
 
-    if (langManager.isFirstLaunch()) {
-        engine.load(QUrl::fromLocalFile(
-            QString(SOURCE_DIR) + "/ui/pages/SplashScreen.qml"
-        ));
-    } else {
-        engine.load(QUrl::fromLocalFile(
-            QString(SOURCE_DIR) + "/ui/pages/NormalWindow.qml"
-        ));
-    }
+    QWebEngineScript fpScript;
+    fpScript.setName("sabre-fingerprint");
+    fpScript.setInjectionPoint(QWebEngineScript::DocumentCreation);
+    fpScript.setWorldId(QWebEngineScript::MainWorld);
+    fpScript.setRunsOnSubFrames(true);
+    fpScript.setSourceCode(fingerprintController.sessionScript("default"));
+    sessionProfile->scripts()->insert(fpScript);
 
-    if (engine.rootObjects().isEmpty())
-        return -1;
+    NormalWindow* window = new NormalWindow(sessionProfile, &fingerprintController,
+                                            &langManager, &searchController);
+    window->show();
 
     return app.exec();
 }

@@ -1,22 +1,24 @@
 {
     "app": {
-        "name": "Sabre Browser",
-        "tagline": "Haraka. Faragha. Imara."
+        "name": "Kivinjari cha Sabre",
+        "tagline": "Haraka. Faragha. Isiyoyumba."
     },
     "toolbar": {
         "back": "Rudi",
         "forward": "Endelea",
-        "reload": "Pakia Tena",
-        "stop": "Simama",
+        "reload": "Pakia upya",
+        "stop": "Simamisha",
         "home": "Nyumbani",
         "new_tab": "Kichupo Kipya",
-        "address_bar_placeholder": "Tafuta au ingiza anwani"
+        "address_bar_placeholder": "Tafuta au weka anwani"
     },
     "tabs": {
         "new_tab_title": "Kichupo Kipya",
-        "incognito_title": "Faragha",
+        "incognito_title": "Hali ya Siri",
         "close": "Funga Kichupo",
-        "close_all": "Funga Vichupo Vyote"
+        "close_all": "Funga Vichupo Vyote",
+        "profile_title": "Wasifu",
+        "settings_title": "Mipangilio"
     },
     "newtab": {
         "greeting_morning": "Habari za asubuhi.",
@@ -26,35 +28,50 @@
         "link_mask_button": "FICHA KIUNGO"
     },
     "incognito": {
-        "title": "Hali ya Faragha",
-        "description": "Unatumia kivinjari kwa faragha. Hakuna historia, kuki, wala alama.",
-        "warning": "Shughuli yako inaweza kuonekana kwa mtoa huduma wako wa mtandao."
+        "title": "Hali ya Siri",
+        "description": "Unavinjari kwa faragha. Hakuna historia, hakuna vidakuzi, hakuna alama.",
+        "warning": "Shughuli yako bado inaweza kuonekana na mtoa huduma wako wa mtandao."
     },
     "settings": {
         "title": "Mipangilio",
         "language": "Lugha",
+        "language_desc": "Chagua lugha ya kuonyesha kwenye kiolesura cha kivinjari.",
         "search_engine": "Injini ya Utafutaji",
-        "adblock": "Kizuizi cha Matangazo",
+        "adblock": "Kizuia Matangazo",
         "adblock_enabled": "Imewashwa",
         "adblock_disabled": "Imezimwa",
         "tor": "Uelekezaji wa Tor",
         "tor_enabled": "Imeunganishwa",
-        "tor_disabled": "Imekatwa",
+        "tor_disabled": "Haijaunganishwa",
         "theme": "Mandhari",
-        "about": "Kuhusu Sabre"
+        "about": "Kuhusu Sabre",
+        "identity": "Utambulisho / Wasifu",
+        "identity_desc": "Inatengeneza utambulisho mpya wa alama za kidole na kuutumia mara moja kwenye wasifu amilifu wa kivinjari.",
+        "current_context": "Muktadha wa sasa",
+        "change_profile": "Badilisha Wasifu"
+    },
+    "profile": {
+        "active_identity": "Utambulisho Amilifu",
+        "context_label": "muktadha",
+        "navigator": "Kivinjarishi",
+        "screen": "Skrini",
+        "webgl": "WebGL",
+        "audio": "Sauti",
+        "raw_json": "JSON Ghafi",
+        "refresh": "Onyesha upya"
     },
     "errors": {
         "no_internet": "Hakuna muunganisho wa intaneti.",
         "page_not_found": "Ukurasa haukupatikana.",
         "connection_failed": "Muunganisho umeshindwa.",
-        "retrying": "Inajaribu tena nyuma ya pazia..."
+        "retrying": "Inajaribu tena chinichini..."
     },
     "devtools": {
-        "title": "Zana za Msanidi",
+        "title": "Zana za Wasanidi Programu",
         "network": "Mtandao",
-        "console": "Konsoli",
+        "console": "Dashibodi",
         "dom": "DOM",
         "storage": "Hifadhi",
         "clear": "Futa"
     }
-} 
+}

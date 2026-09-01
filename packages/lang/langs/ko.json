@@ -1,7 +1,7 @@
 {
     "app": {
-        "name": "Sabre Browser",
-        "tagline": "빠르다. 안전하다. 흔들리지 않는다."
+        "name": "Sabre 브라우저",
+        "tagline": "빠르고. 사적이며. 흔들리지 않는다."
     },
     "toolbar": {
         "back": "뒤로",
@@ -10,13 +10,15 @@
         "stop": "중지",
         "home": "홈",
         "new_tab": "새 탭",
-        "address_bar_placeholder": "검색하거나 주소를 입력하세요"
+        "address_bar_placeholder": "검색어 또는 주소 입력"
     },
     "tabs": {
         "new_tab_title": "새 탭",
-        "incognito_title": "시크릿",
+        "incognito_title": "시크릿 모드",
         "close": "탭 닫기",
-        "close_all": "모든 탭 닫기"
+        "close_all": "모든 탭 닫기",
+        "profile_title": "프로필",
+        "settings_title": "설정"
     },
     "newtab": {
         "greeting_morning": "좋은 아침입니다.",
@@ -27,24 +29,39 @@
     },
     "incognito": {
         "title": "시크릿 모드",
-        "description": "비공개로 브라우징 중입니다. 기록, 쿠키, 흔적이 없습니다.",
-        "warning": "네트워크 제공업체에게는 활동이 보일 수 있습니다."
+        "description": "비공개로 탐색 중입니다. 기록도, 쿠키도, 흔적도 남지 않습니다.",
+        "warning": "네트워크 제공업체에는 활동이 여전히 보일 수 있습니다."
     },
     "settings": {
         "title": "설정",
         "language": "언어",
+        "language_desc": "브라우저 인터페이스의 표시 언어를 선택하세요.",
         "search_engine": "검색 엔진",
         "adblock": "광고 차단기",
-        "adblock_enabled": "활성화됨",
-        "adblock_disabled": "비활성화됨",
+        "adblock_enabled": "사용함",
+        "adblock_disabled": "사용 안 함",
         "tor": "Tor 라우팅",
         "tor_enabled": "연결됨",
-        "tor_disabled": "연결 끊김",
+        "tor_disabled": "연결 안 됨",
         "theme": "테마",
-        "about": "Sabre 정보"
+        "about": "Sabre 정보",
+        "identity": "신원 / 프로필",
+        "identity_desc": "새로운 핑거프린트 신원을 생성하고 즉시 활성 브라우저 프로필에 적용합니다.",
+        "current_context": "현재 컨텍스트",
+        "change_profile": "프로필 변경"
+    },
+    "profile": {
+        "active_identity": "활성 신원",
+        "context_label": "컨텍스트",
+        "navigator": "내비게이터",
+        "screen": "화면",
+        "webgl": "WebGL",
+        "audio": "오디오",
+        "raw_json": "원본 JSON",
+        "refresh": "새로고침"
     },
     "errors": {
-        "no_internet": "인터넷 연결이 없습니다.",
+        "no_internet": "인터넷에 연결되어 있지 않습니다.",
         "page_not_found": "페이지를 찾을 수 없습니다.",
         "connection_failed": "연결에 실패했습니다.",
         "retrying": "백그라운드에서 재시도 중..."

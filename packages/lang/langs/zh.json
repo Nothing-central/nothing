@@ -1,12 +1,12 @@
 {
     "app": {
-        "name": "Sabre Browser",
-        "tagline": "快速。私密。坚不可摧。"
+        "name": "Sabre 浏览器",
+        "tagline": "快速。私密。坚定不移。"
     },
     "toolbar": {
         "back": "后退",
         "forward": "前进",
-        "reload": "刷新",
+        "reload": "重新加载",
         "stop": "停止",
         "home": "主页",
         "new_tab": "新标签页",
@@ -14,9 +14,11 @@
     },
     "tabs": {
         "new_tab_title": "新标签页",
-        "incognito_title": "隐身",
+        "incognito_title": "隐身模式",
         "close": "关闭标签页",
-        "close_all": "关闭所有标签页"
+        "close_all": "关闭所有标签页",
+        "profile_title": "个人资料",
+        "settings_title": "设置"
     },
     "newtab": {
         "greeting_morning": "早上好。",
@@ -27,25 +29,40 @@
     },
     "incognito": {
         "title": "隐身模式",
-        "description": "您正在私密浏览。没有历史记录、Cookie或痕迹。",
+        "description": "您正在进行隐私浏览。没有历史记录，没有 Cookie，没有痕迹。",
         "warning": "您的网络提供商可能仍能看到您的活动。"
     },
     "settings": {
         "title": "设置",
         "language": "语言",
+        "language_desc": "选择浏览器界面的显示语言。",
         "search_engine": "搜索引擎",
-        "adblock": "广告拦截",
+        "adblock": "广告拦截器",
         "adblock_enabled": "已启用",
         "adblock_disabled": "已禁用",
         "tor": "Tor 路由",
         "tor_enabled": "已连接",
-        "tor_disabled": "已断开",
+        "tor_disabled": "未连接",
         "theme": "主题",
-        "about": "关于 Sabre"
+        "about": "关于 Sabre",
+        "identity": "身份 / 个人资料",
+        "identity_desc": "生成全新的指纹身份，并立即应用于当前活动的浏览器配置文件。",
+        "current_context": "当前上下文",
+        "change_profile": "更改个人资料"
+    },
+    "profile": {
+        "active_identity": "当前身份",
+        "context_label": "上下文",
+        "navigator": "Navigator",
+        "screen": "屏幕",
+        "webgl": "WebGL",
+        "audio": "音频",
+        "raw_json": "原始 JSON",
+        "refresh": "刷新"
     },
     "errors": {
-        "no_internet": "没有网络连接。",
-        "page_not_found": "页面未找到。",
+        "no_internet": "无网络连接。",
+        "page_not_found": "未找到页面。",
         "connection_failed": "连接失败。",
         "retrying": "正在后台重试..."
     },
@@ -57,4 +74,4 @@
         "storage": "存储",
         "clear": "清除"
     }
-} 
+}

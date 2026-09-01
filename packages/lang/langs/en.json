@@ -16,7 +16,9 @@
         "new_tab_title": "New Tab",
         "incognito_title": "Incognito",
         "close": "Close Tab",
-        "close_all": "Close All Tabs"
+        "close_all": "Close All Tabs",
+        "profile_title": "Profile",
+        "settings_title": "Settings"
     },
     "newtab": {
         "greeting_morning": "Good morning.",
@@ -41,7 +43,21 @@
         "tor_enabled": "Connected",
         "tor_disabled": "Disconnected",
         "theme": "Theme",
-        "about": "About Sabre"
+        "about": "About Sabre",
+        "identity": "Identity / Profile",
+        "identity_desc": "Generates a brand new fingerprint identity and applies it to the active browser profile immediately.",
+        "current_context": "Current context",
+        "change_profile": "Change Profile"
+    },
+    "profile": {
+        "active_identity": "Active Identity",
+        "context_label": "context",
+        "navigator": "Navigator",
+        "screen": "Screen",
+        "webgl": "WebGL",
+        "audio": "Audio",
+        "raw_json": "Raw JSON",
+        "refresh": "Refresh"
     },
     "errors": {
         "no_internet": "No internet connection.",
@@ -57,4 +73,4 @@
         "storage": "Storage",
         "clear": "Clear"
     }
-} 
+}

@@ -14,7 +14,8 @@ LangManager::LangManager(QObject* parent) : QObject(parent) {
     QString code = "en";
     if (cfg.open(QIODevice::ReadOnly)) {
         auto doc = QJsonDocument::fromJson(cfg.readAll());
-        code = doc.object().value("lang").toString("en");
+        QString stored = doc.object().value("lang").toString();
+        if (!stored.isEmpty()) code = stored;
         cfg.close();
     }
     load(code);

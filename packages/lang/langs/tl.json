@@ -1,11 +1,11 @@
 {
     "app": {
         "name": "Sabre Browser",
-        "tagline": "Mabilis. Pribado. Matibay."
+        "tagline": "Mabilis. Pribado. Matatag."
     },
     "toolbar": {
         "back": "Bumalik",
-        "forward": "Sulong",
+        "forward": "Sumulong",
         "reload": "I-reload",
         "stop": "Ihinto",
         "home": "Home",
@@ -16,23 +16,26 @@
         "new_tab_title": "Bagong Tab",
         "incognito_title": "Incognito",
         "close": "Isara ang Tab",
-        "close_all": "Isara Lahat ng Tab"
+        "close_all": "Isara Lahat ng Tab",
+        "profile_title": "Profile",
+        "settings_title": "Mga Setting"
     },
     "newtab": {
         "greeting_morning": "Magandang umaga.",
-        "greeting_afternoon": "Magandang tanghali.",
+        "greeting_afternoon": "Magandang hapon.",
         "greeting_evening": "Magandang gabi.",
         "search_placeholder": "MAGHANAP_",
         "link_mask_button": "LINK MASK"
     },
     "incognito": {
         "title": "Incognito Mode",
-        "description": "Nagba-browse ka nang pribado. Walang kasaysayan, cookies, o bakas.",
-        "warning": "Ang iyong aktibidad ay maaaring makita ng iyong network provider."
+        "description": "Pribado kang nagba-browse. Walang history, walang cookies, walang bakas.",
+        "warning": "Maaaring makita pa rin ng iyong network provider ang iyong aktibidad."
     },
     "settings": {
         "title": "Mga Setting",
         "language": "Wika",
+        "language_desc": "Piliin ang wikang gagamitin sa interface ng browser.",
         "search_engine": "Search Engine",
         "adblock": "Ad Blocker",
         "adblock_enabled": "Naka-enable",
@@ -40,14 +43,28 @@
         "tor": "Tor Routing",
         "tor_enabled": "Nakakonekta",
         "tor_disabled": "Hindi Nakakonekta",
-        "theme": "Theme",
-        "about": "Tungkol sa Sabre"
+        "theme": "Tema",
+        "about": "Tungkol sa Sabre",
+        "identity": "Pagkakakilanlan / Profile",
+        "identity_desc": "Gumagawa ng bagong fingerprint identity at agad na inilalapat ito sa aktibong browser profile.",
+        "current_context": "Kasalukuyang context",
+        "change_profile": "Palitan ang Profile"
+    },
+    "profile": {
+        "active_identity": "Aktibong Pagkakakilanlan",
+        "context_label": "context",
+        "navigator": "Navigator",
+        "screen": "Screen",
+        "webgl": "WebGL",
+        "audio": "Audio",
+        "raw_json": "Raw JSON",
+        "refresh": "I-refresh"
     },
     "errors": {
         "no_internet": "Walang koneksyon sa internet.",
-        "page_not_found": "Hindi mahanap ang pahina.",
+        "page_not_found": "Hindi nahanap ang pahina.",
         "connection_failed": "Nabigo ang koneksyon.",
-        "retrying": "Muling sinusubukan sa background..."
+        "retrying": "Sinusubukan ulit sa background..."
     },
     "devtools": {
         "title": "Developer Tools",
