@@ -63,21 +63,6 @@
 - No personalized tracking, no telemetry
 - Just clean, unfiltered search results
 
----
-
-### 9. 🪟 Glass Dev Tools
-- Built-in developer tools with a transparent/glass aesthetic
-- Visually "peel back" website layers
-- See HTML structure, scripts, and trackers at a glance
-- Styled like Nothing hardware — clean and minimal
-
----
-
-### 10. 📱 Nothing Phone Integration (Future)
-- Download progress shown on Nothing Phone Glyph lights
-- Background task notifications through hardware lights
-- Screen-down? Still see your download progress
-- Only for Nothing ecosystem devices
 
 ---
 
@@ -93,24 +78,11 @@
 | 6 | True Incognito | No trace, memory-only private mode |
 | 7 | Locked Bookmarks | PIN-protected saved links |
 | 8 | Private Search | No tracking, no AI, no personalized results |
-| 9 | Glass Dev Tools | Pretty, transparent developer tools |
-| 10 | Nothing Glyph | Phone light notifications (future) |
+
 
 ---
 
-## What's *Not* a Core Feature
 
-- ❌ Extensions store
-- ❌ Built-in AI
-- ❌ Cloud sync / account system
-- ❌ Crypto wallet
-- ❌ VPN (not mentioned)
-- ❌ Password manager
-- ❌ Tab groups / workspaces
-- ❌ Reading list
-- ❌ Built-in translator
-
----
 
 ## What Sabre *Is*
 
