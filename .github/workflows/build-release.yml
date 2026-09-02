@@ -42,7 +42,7 @@ jobs:
             imagemagick
 
       - name: Configure
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -G Ninja
+        run: cmake -S apps/browser -B build -DCMAKE_BUILD_TYPE=Release -G Ninja
 
       - name: Build
         run: cmake --build build --parallel --target sabre-browser
@@ -168,7 +168,7 @@ jobs:
             imagemagick
 
       - name: Configure
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -G Ninja
+        run: cmake -S apps/browser -B build -DCMAKE_BUILD_TYPE=Release -G Ninja
 
       - name: Build
         run: cmake --build build --parallel --target sabre-browser
@@ -305,8 +305,8 @@ jobs:
         shell: cmd
         run: |
           mkdir build-win
-          cd build-win
-          cmake .. ^
+          cmake apps/browser ^
+            -B build-win ^
             -DCMAKE_BUILD_TYPE=Release ^
             -DCMAKE_PREFIX_PATH="%QT_CMAKE_DIR%" ^
             -G "Ninja"
@@ -484,46 +484,3 @@ jobs:
               | sudo tee /etc/apt/sources.list.d/sabre-browser.list
 
             sudo apt update && sudo apt install sabre-browser
-            ```
-
-            ---
-
-            ### Manual install — Linux
-
-            **amd64 .deb**
-            ```sh
-            sudo dpkg -i sabre-browser_*_amd64.deb
-            ```
-
-            **arm64 .deb**
-            ```sh
-            sudo dpkg -i sabre-browser_*_arm64.deb
-            ```
-
-            **tar.gz (no install)**
-            ```sh
-            tar -xzf sabre-browser-*-linux-amd64.tar.gz
-            cd sabre-browser-*
-            ./sabre-browser
-            ```
-
-            ---
-
-            ### Manual install — Windows
-
-            Download the `.zip`, extract it, and run `sabre-browser.exe`. No installer yet — just unzip and go.
-
-            ---
-
-            ### Bug reports
-
-            Email **ernesttechhouse@gmail.com** with steps to reproduce and your distro/OS version.
-
-          files: |
-            release-artifacts/linux-amd64-build/*.deb
-            release-artifacts/linux-amd64-build/*.tar.gz
-            release-artifacts/linux-arm64-build/*.deb
-            release-artifacts/linux-arm64-build/*.tar.gz
-            release-artifacts/windows-build/*.zip
-          draft: false
-          prerelease: ${{ steps.reltype.outputs.PRERELEASE == 'true' }}
