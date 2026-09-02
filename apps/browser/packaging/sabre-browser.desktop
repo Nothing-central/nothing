@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Sabre Browser
+Comment=Sabre Web Browser
+Exec=sabre-browser %U
+Icon=sabre-browser
+Type=Application
+Categories=Network;WebBrowser;
+StartupWMClass=sabre-browser
+Terminal=false
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;

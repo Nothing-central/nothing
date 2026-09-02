@@ -29,6 +29,8 @@ int main(int argc, char *argv[]) {
     app.setApplicationName("Sabre Browser");
     app.setOrganizationName("Ernest Tech House");
     app.setApplicationVersion("0.1.0.0");
+    app.setWindowIcon(QIcon::fromTheme("sabre-browser",
+        QIcon(QString(SOURCE_DIR) + "/assets/icons/mainlogo-nobackground.png")));
 
     LangManager langManager;
     SearchController searchController;

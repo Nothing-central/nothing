@@ -1,5 +1,6 @@
 // ═══════════════════════════════════════════ NormalWindow.cpp ═════════════════════════════════════════
 #include "NormalWindow.h"
+#include "IncognitoWindow.h"
 #include "SearchController.h"
 #include "AdblockPage.h"
 #include <QHBoxLayout>
@@ -78,8 +79,18 @@ void NormalWindow::setupUI() {
 
     tbl->addWidget(profileBtn);
     tbl->addWidget(settingsBtn);
-    tbl->addSpacing(4);
 
+    // ── ADDED INCOGNITO BUTTON HERE ──────────────────────────────────────────
+    auto* incognitoBtn = makeTabBtn("incognito.svg", "Open Incognito Window");
+    connect(incognitoBtn, &QPushButton::clicked, this, [this] {
+        auto* w = new IncognitoWindow(m_fingerprint, m_searchController);
+        w->setAttribute(Qt::WA_DeleteOnClose);
+        w->show();
+    });
+    tbl->addWidget(incognitoBtn);
+    // ──────────────────────────────────────────────────────────────────────────
+
+    tbl->addSpacing(4);
     auto* sep = new QFrame(m_topBar);
     sep->setFrameShape(QFrame::VLine);
     sep->setFixedHeight(20);
@@ -89,7 +100,6 @@ void NormalWindow::setupUI() {
 
     // ── Tab Bar ───────────────────────────────────────────────────────────────
     m_tabs = new SabreTabBar(m_topBar);
-
     auto* newTabBtn = new QPushButton("+", m_topBar);
     newTabBtn->setFixedSize(30, 30);        // was 28×28
     newTabBtn->setCursor(Qt::PointingHandCursor);
@@ -98,14 +108,12 @@ void NormalWindow::setupUI() {
         QPushButton:hover   { background: #1c1c1c; color: #ffffff; border-color:#3a3a3a; }
         QPushButton:pressed { background: #111111; }
     )");
-
     tbl->addWidget(m_tabs, 1);
     tbl->addWidget(newTabBtn);
 
     connect(m_tabs, &QTabBar::currentChanged,    this, &NormalWindow::switchTab);
     connect(m_tabs, &QTabBar::tabCloseRequested, this, &NormalWindow::closeTab);
     connect(newTabBtn, &QPushButton::clicked,    this, [this] { addTab("about://home"); });
-
     connect(m_tabs, &SabreTabBar::requestPin,         this, &NormalWindow::onTabPin);
     connect(m_tabs, &SabreTabBar::requestUnpin,       this, &NormalWindow::onTabUnpin);
     connect(m_tabs, &SabreTabBar::requestDuplicate,   this, &NormalWindow::onTabDuplicate);
@@ -118,7 +126,6 @@ void NormalWindow::setupUI() {
 
     // ── Page Stack ────────────────────────────────────────────────────────────
     m_pageStack = new QStackedWidget(central);
-
     m_stack = new QStackedWidget(m_pageStack);
     m_pageStack->addWidget(m_stack); // Index 0
 
@@ -172,8 +179,8 @@ void NormalWindow::addTab(const QString& url) {
 void NormalWindow::addTabAt(int index, const QString& url) {
     auto* tab = new BrowserTab(m_profile, m_searchController, m_fingerprint, this);
     connect(tab, &BrowserTab::urlChanged,        this, &NormalWindow::onTabUrlChanged);
-    connect(tab, &BrowserTab::titleChanged,       this, &NormalWindow::onTabTitleChanged);
-    connect(tab, &BrowserTab::noInternetDetected, this, &NormalWindow::showNoInternetPage);
+    connect(tab, &BrowserTab::titleChanged,      this, &NormalWindow::onTabTitleChanged);
+    connect(tab, &BrowserTab::noInternetDetected,this, &NormalWindow::showNoInternetPage);
 
     m_stack->insertWidget(index, tab);
     m_tabs->insertTab(index, "New Tab");
@@ -193,9 +200,7 @@ void NormalWindow::closeTab(int index) {
         teardownSplitGroup(grp);
         return;
     }
-
     if (m_tabs->count() == 1) { close(); return; }
-
     auto* widget = m_stack->widget(index);
     m_stack->removeWidget(widget);
     widget->deleteLater();
@@ -215,21 +220,18 @@ void NormalWindow::switchTab(int index) {
         if (active) onTabUrlChanged(active->currentUrl());
         return;
     }
-
     if (auto* tab = currentTab()) onTabUrlChanged(tab->currentUrl());
 }
 
 // ════════════════════════════════════════════════════════════════════════════════
-//  currentTab — returns the *active* BrowserTab regardless of split state
+//  currentTab — returns the active BrowserTab regardless of split state
 // ════════════════════════════════════════════════════════════════════════════════
 BrowserTab* NormalWindow::currentTab() const {
     int idx = m_tabs->currentIndex();
     if (idx < 0) return nullptr;
-
     if (SplitGroup* grp = splitGroupForTabIndex(idx)) {
         return (grp->activePane == 0) ? grp->paneA : grp->paneB;
     }
-
     return qobject_cast<BrowserTab*>(m_stack->widget(idx));
 }
 
@@ -273,7 +275,6 @@ SplitGroup* NormalWindow::splitGroupForTabIndex(int index) const {
 
 void NormalWindow::updateSplitTabLabel(SplitGroup* grp) {
     if (!grp || grp->mainTabIndex < 0) return;
-
     QString titleA = grp->paneA ? grp->paneA->currentTitle() : QString();
     QString titleB = grp->paneB ? grp->paneB->currentTitle() : QString();
     if (titleA.isEmpty()) titleA = "New Tab";
@@ -298,7 +299,6 @@ void NormalWindow::updateSplitTabLabel(SplitGroup* grp) {
 
 void NormalWindow::teardownSplitGroup(SplitGroup* grp) {
     if (!grp) return;
-
     // Put the first pane back as a normal standalone tab in the same slot
     int idx = grp->mainTabIndex;
 
@@ -322,10 +322,8 @@ void NormalWindow::teardownSplitGroup(SplitGroup* grp) {
 
     // The splitter container itself (without the panes, since we reparented them)
     grp->container->deleteLater();
-
     m_splitGroups.removeOne(grp);
     delete grp;
-
     m_tabs->setCurrentIndex(idx);
 }
 
@@ -340,18 +338,15 @@ void NormalWindow::onTabSplitView(int index) {
     if (!existingTab) return;
 
     // ── Ask the user: combine with an existing tab, or open new home page? ──
-    //
     // Build a list of other tabs the user could merge with
     QStringList choices;
     QList<int>  choiceIndices;
-
     for (int i = 0; i < m_tabs->count(); ++i) {
         if (i == index) continue;
         if (splitGroupForTabIndex(i)) continue; // skip already-split groups
         choices << QString("[%1] %2").arg(i + 1).arg(m_tabs->tabText(i));
         choiceIndices << i;
     }
-
     choices << "Open a new home page in split pane";
 
     bool ok = false;
@@ -361,7 +356,6 @@ void NormalWindow::onTabSplitView(int index) {
         QString("Split \"%1\" with:").arg(existingTab->currentTitle().isEmpty() ? "this tab" : existingTab->currentTitle()),
         choices, 0, false, &ok
     );
-
     if (!ok) return;
 
     // ── Create the QSplitter container ───────────────────────────────────────
@@ -384,7 +378,6 @@ void NormalWindow::onTabSplitView(int index) {
 
     if (!isNewPage && chosenChoiceIdx >= 0 && chosenChoiceIdx < choiceIndices.size()) {
         int otherIndex = choiceIndices[chosenChoiceIdx];
-
         // Pull that tab out of m_stack and m_tabs
         paneB = qobject_cast<BrowserTab*>(m_stack->widget(otherIndex));
         if (paneB) {
@@ -398,14 +391,10 @@ void NormalWindow::onTabSplitView(int index) {
     if (!paneB) {
         paneB = new BrowserTab(m_profile, m_searchController, m_fingerprint, this);
         connect(paneB, &BrowserTab::urlChanged,        this, &NormalWindow::onTabUrlChanged);
-        connect(paneB, &BrowserTab::titleChanged,       this, &NormalWindow::onTabTitleChanged);
-        connect(paneB, &BrowserTab::noInternetDetected, this, &NormalWindow::showNoInternetPage);
+        connect(paneB, &BrowserTab::titleChanged,      this, &NormalWindow::onTabTitleChanged);
+        connect(paneB, &BrowserTab::noInternetDetected,this, &NormalWindow::showNoInternetPage);
         QTimer::singleShot(0, paneB, [paneB]() { paneB->navigateTo("about://home"); });
     }
-
-    // ── Wire pane focus: clicking inside a pane makes it "active" ────────────
-    // We detect this via the url/title changed signals (sender() trick)
-    // and update grp->activePane accordingly. We set this up after grp exists.
 
     // ── Remove paneA from m_stack (we'll replace its slot with the splitter) ─
     m_stack->removeWidget(paneA);
@@ -459,7 +448,7 @@ void NormalWindow::onTabPin(int index) {
     auto* tab = qobject_cast<BrowserTab*>(m_stack->widget(index));
     if (!tab) return;
     tab->setPinned(true);
-    m_tabs->setTabText(index, " ");
+    m_tabs->setTabText(index, "  ");
     m_tabs->setTabIcon(index, tab->webView()->icon().isNull()
         ? QIcon(QString(SOURCE_DIR) + "/assets/icons/globe.svg") : tab->webView()->icon());
     m_tabs->setTabToolTip(index, tab->currentTitle());
