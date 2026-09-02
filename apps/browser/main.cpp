@@ -12,6 +12,7 @@
 #include "FossilCacheManager.h"
 #include "FossilSchemeHandler.h"
 #include "DownloadManager.h"
+#include "AdblockInterceptor.h"
 
 int main(int argc, char *argv[]) {
     // ── Fix: Must be called before QApplication ───────────────────────────────
@@ -40,7 +41,8 @@ int main(int argc, char *argv[]) {
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
         "(KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
     );
-
+    AdblockInterceptor* adblock = new AdblockInterceptor(&app);
+    sessionProfile->setUrlRequestInterceptor(adblock);
     // ── SUPERCHARGED DOWNLOADS: Global single connection ──────────────────────
     QObject::connect(sessionProfile, &QWebEngineProfile::downloadRequested,
                      DownloadManager::instance(), &DownloadManager::handleDownload);

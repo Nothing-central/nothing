@@ -34,7 +34,7 @@ protected:
         if (!isMainFrame) return true;
         QString s = url.toString();
         // NEW: Added about://downloads to internal navigation
-        if (url.scheme() == "about" && (s == "about://home" || s == "about://profile" || s == "about://settings" || s == "about://fossils" || s == "about://downloads")) {
+        if (url.scheme() == "about" && (s == "about://home" || s == "about://profile" || s == "about://settings" || s == "about://fossils" || s == "about://downloads" || s == "about://adblock")) {
             emit internalNavigation(s);
             return false;
         }
@@ -262,7 +262,7 @@ void BrowserTab::injectHeuristic() {
 
 void BrowserTab::navigateTo(const QString& url) {
     cancelRetry();
-    if (url == "about://home" || url == "about://profile" || url == "about://settings" || url == "about://downloads") {
+    if (url == "about://home" || url == "about://profile" || url == "about://settings" || url == "about://downloads" || url == "about://adblock") {
         m_currentLogicalUrl = url;
         emit urlChanged(url);
         m_urlBar->setText(url);

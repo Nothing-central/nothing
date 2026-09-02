@@ -12,8 +12,12 @@ qt_standard_project_setup()
 
 set(NOTHING_LANG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../packages/lang/langs" CACHE PATH "Path to language JSON files" FORCE)
 set(PROFILE_BUILD_QT_LAYER ON CACHE BOOL "" FORCE)
+
 add_subdirectory(../../packages/profile ${CMAKE_BINARY_DIR}/packages/profile)
 add_subdirectory(../../packages/search ${CMAKE_BINARY_DIR}/packages/search)
+# ── NEW: Add the adblock package ──────────────────────────────────────────────
+add_subdirectory(../../packages/adblock ${CMAKE_BINARY_DIR}/packages/adblock)
+
 include_directories(../../packages/lang/include)
 
 qt_add_executable(sabre-browser
@@ -28,29 +32,40 @@ qt_add_executable(sabre-browser
     DownloadManager.h DownloadManager.cpp
     DownloadPanel.h DownloadPanel.cpp
     DownloadsPage.h  DownloadsPage.cpp
+    SabreTabBar.h SabreTabBar.cpp
     NewTabPage.h NewTabPage.cpp NoInternetPage.h NoInternetPage.cpp
     OfflineGamePage.h OfflineGamePage.cpp ProfilePage.h ProfilePage.cpp
     SettingsPage.h SettingsPage.cpp NormalWindow.h NormalWindow.cpp
+    AdblockInterceptor.h AdblockInterceptor.cpp  # ── NEW ──
+    AdblockPage.cpp AdblockPage.h
     ../../packages/lang/src/LangManager.cpp ../../packages/lang/include/LangManager.h
 )
 
-# ── ADD THIS BLOCK: Compile qwebchannel.js into the binary ──────────────────────
 qt_add_resources(sabre-browser "browser_resources"
     PREFIX "/qtwebchannel"
-    FILES
-        qwebchannel.js
+    FILES qwebchannel.js
 )
-# ────────────────────────────────────────────────────────────────────────────────
-
+qt_add_resources(sabre-browser "adblock_filters"
+    PREFIX "/"
+    FILES
+        filters/easylist.txt
+        filters/easyprivacy.txt
+)
 target_compile_definitions(sabre-browser PRIVATE SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}" BROWSER_MODE="${BROWSER_MODE}" NOTHING_LANG_DIR="${NOTHING_LANG_DIR}")
-target_include_directories(sabre-browser PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}" "../../packages/lang/include")
+
+target_include_directories(sabre-browser PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+    "../../packages/lang/include"
+    "../../packages/adblock/include"  # ── NEW ──
+)
 
 target_link_libraries(sabre-browser PRIVATE
     Qt6::Core Qt6::Gui Qt6::Widgets Qt6::WebEngineCore Qt6::WebEngineWidgets Qt6::WebChannel Qt6::Sql
-    nothing-fingerprint-qt nothing-incognito nothing-search
+    nothing-fingerprint-qt nothing-incognito nothing-search nothing-adblock  # ── NEW: linked nothing-adblock ──
 )
 
 install(TARGETS sabre-browser BUNDLE DESTINATION . RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
 if(EXISTS "${NOTHING_LANG_DIR}")
     add_custom_command(TARGET sabre-browser POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${NOTHING_LANG_DIR}" "$<TARGET_FILE_DIR:sabre-browser>/langs" COMMENT "Copying language files to build directory")
 endif()

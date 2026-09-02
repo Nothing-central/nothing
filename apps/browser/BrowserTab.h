@@ -41,7 +41,7 @@ public:
     void setPinned(bool pinned);
     bool isMuted()  const;
     void setMuted(bool muted);
-    QWebEngineView* webView() const; // Expose for split view
+    QWebEngineView* webView() const; // Expose for split view & icons
 
 public slots:
     void navigateTo(const QString& url);

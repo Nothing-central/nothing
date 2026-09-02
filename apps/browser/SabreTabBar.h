@@ -4,6 +4,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QContextMenuEvent>
+#include <QVariantMap>
 
 class SabreTabBar : public QTabBar {
     Q_OBJECT
