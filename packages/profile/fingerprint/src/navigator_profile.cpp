@@ -12,10 +12,10 @@ void ApplyWindows(NavigatorProfile& p, BrowserFamily f) {
                         "Gecko/20100101 Firefox/121.0";
     } else {
         p.app_version = "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                         "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
+                         "(KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36";
         p.user_agent = "Mozilla/" + p.app_version;
         p.user_agent_data = UserAgentData{
-            {{"Chromium", "124"}, {"Google Chrome", "124"}, {"Not-A.Brand", "99"}},
+            {{"Chromium", "147"}, {"Google Chrome", "147"}, {"Not-A.Brand", "99"}},
             false, "Windows"};
     }
 }
@@ -30,10 +30,10 @@ void ApplyMac(NavigatorProfile& p, BrowserFamily f) {
                         "Gecko/20100101 Firefox/121.0";
     } else {
         p.app_version = "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-                         "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
+                         "(KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36";
         p.user_agent = "Mozilla/" + p.app_version;
         p.user_agent_data = UserAgentData{
-            {{"Chromium", "124"}, {"Google Chrome", "124"}, {"Not-A.Brand", "99"}},
+            {{"Chromium", "147"}, {"Google Chrome", "147"}, {"Not-A.Brand", "99"}},
             false, "macOS"};
     }
 }
@@ -48,10 +48,10 @@ void ApplyLinux(NavigatorProfile& p, BrowserFamily f) {
                         "Gecko/20100101 Firefox/121.0";
     } else {
         p.app_version = "5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-                         "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
+                         "(KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36";
         p.user_agent = "Mozilla/" + p.app_version;
         p.user_agent_data = UserAgentData{
-            {{"Chromium", "124"}, {"Google Chrome", "124"}, {"Not-A.Brand", "99"}},
+            {{"Chromium", "147"}, {"Google Chrome", "147"}, {"Not-A.Brand", "99"}},
             false, "Linux"};
     }
 }

@@ -8,6 +8,7 @@
 #include <QSize>
 #include <QSet>
 #include <QFrame>
+#include <QTimer>
 
 NormalWindow::NormalWindow(QWebEngineProfile* profile,
                            FingerprintController* fingerprint,
@@ -192,19 +193,57 @@ void NormalWindow::setupUI() {
 
     m_pageStack->addWidget(m_settingsPage);                 // 3 = settings
 
+    // ── No-Internet page ─────────────────────────────────────────────────────
+    m_noInternetPage = new NoInternetPage(m_pageStack);
+
+    connect(m_noInternetPage, &NoInternetPage::retryRequested, this, [this] {
+        // Jump back to the web stack and reload the current tab
+        m_pageStack->setCurrentIndex(0);
+        auto* tab = currentTab();
+        if (tab) tab->reload();
+    });
+
+    connect(m_noInternetPage, &NoInternetPage::playOfflineGame, this, [this] {
+        m_pageStack->setCurrentIndex(5);                    // → offline game
+    });
+
+    m_pageStack->addWidget(m_noInternetPage);               // 4 = no-internet
+
+    // ── Offline game placeholder ──────────────────────────────────────────────
+    m_offlineGamePage = new OfflineGamePage(m_pageStack);
+
+    connect(m_offlineGamePage, &OfflineGamePage::backRequested, this, [this] {
+        m_pageStack->setCurrentIndex(4);                    // → back to no-internet
+    });
+
+    m_pageStack->addWidget(m_offlineGamePage);              // 5 = offline game
+
     root->addWidget(m_tabBar);
     root->addWidget(m_pageStack, 1);
+}
+
+// ── Public method — call this from BrowserTab on network error ────────────────
+void NormalWindow::showNoInternetPage() {
+    m_pageStack->setCurrentIndex(4);
+    int idx = m_tabs->currentIndex();
+    if (idx >= 0)
+        m_tabs->setTabText(idx, "No Connection");
 }
 
 void NormalWindow::addTab(const QString& url) {
     auto* tab = new BrowserTab(m_profile, m_searchController, m_fingerprint, this);
     connect(tab, &BrowserTab::urlChanged,   this, &NormalWindow::onTabUrlChanged);
     connect(tab, &BrowserTab::titleChanged, this, &NormalWindow::onTabTitleChanged);
+
+    // ── Wire no-internet detection ────────────────────────────────────────────
+    connect(tab, &BrowserTab::noInternetDetected, this, &NormalWindow::showNoInternetPage);
+    // ─────────────────────────────────────────────────────────────────────────
+
     int idx = m_stack->addWidget(tab);
     m_tabs->addTab("New Tab");
     m_tabs->setCurrentIndex(idx);
     m_stack->setCurrentIndex(idx);
-    tab->navigateTo(url);
+    QTimer::singleShot(0, tab, [tab, url]() { tab->navigateTo(url); });
 }
 
 void NormalWindow::closeTab(int index) {

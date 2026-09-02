@@ -7,6 +7,8 @@
 #include "BrowserTab.h"
 #include "FingerprintController.h"
 #include "NewTabPage.h"
+#include "NoInternetPage.h"      // ← NEW
+#include "OfflineGamePage.h"     // ← NEW
 #include "ProfilePage.h"
 #include "SettingsPage.h"
 #include "LangManager.h"
@@ -23,6 +25,9 @@ public:
                           QWidget* parent = nullptr);
 
     void addTab(const QString& url);
+
+    // Called by BrowserTab when a network error is detected
+    void showNoInternetPage();
 
 private slots:
     void closeTab(int index);
@@ -46,4 +51,6 @@ private:
     NewTabPage*            m_newTabPage       = nullptr;
     ProfilePage*           m_profilePage      = nullptr;
     SettingsPage*          m_settingsPage     = nullptr;
+    NoInternetPage*        m_noInternetPage   = nullptr;   // ← NEW  (index 4)
+    OfflineGamePage*       m_offlineGamePage  = nullptr;   // ← NEW  (index 5)
 };

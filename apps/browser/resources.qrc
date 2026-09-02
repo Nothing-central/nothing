@@ -1,0 +1,11 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+    <!-- The official QWebChannel bridge -->
+    <file>qwebchannel.js</file>
+
+    <!-- Your custom feature scripts -->
+    <file alias="js/form_recovery.js">assets/js/form_recovery.js</file>
+    <file alias="js/fossilize.js">assets/js/fossilize.js</file>
+    <file alias="js/fossil_heuristic.js">assets/js/fossil_heuristic.js</file>
+</qresource>
+</RCC>
