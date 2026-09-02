@@ -1,6 +1,7 @@
 #pragma once
 #include <QObject>
 #include <QList>
+#include <QMap>
 #include <QSqlDatabase>
 #include <QWebEngineDownloadRequest>
 #include <QUrl>
