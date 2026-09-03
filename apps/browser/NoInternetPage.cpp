@@ -13,13 +13,11 @@ NoInternetPage::NoInternetPage(QWidget* parent)
 }
 
 void NoInternetPage::buildUI() {
-    // ── Root layout ───────────────────────────────────────────────────────────
     auto* root = new QVBoxLayout(this);
     root->setContentsMargins(0, 0, 0, 0);
     root->setSpacing(0);
     root->setAlignment(Qt::AlignCenter);
 
-    // ── Centre card ───────────────────────────────────────────────────────────
     auto* card = new QWidget(this);
     card->setFixedWidth(480);
     card->setStyleSheet("background: transparent;");
@@ -29,9 +27,8 @@ void NoInternetPage::buildUI() {
     col->setSpacing(20);
     col->setAlignment(Qt::AlignHCenter);
 
-    // ── Illustration ──────────────────────────────────────────────────────────
     m_image = new QLabel(card);
-    QPixmap pix(QString(SOURCE_DIR) + "/assets/icons/nointernetimagewithoutbackground.png");
+    QPixmap pix(":/sabre/icons/nointernetimagewithoutbackground.png");
     if (!pix.isNull()) {
         m_image->setPixmap(
             pix.scaled(220, 220, Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -40,7 +37,6 @@ void NoInternetPage::buildUI() {
     m_image->setStyleSheet("background: transparent;");
     col->addWidget(m_image, 0, Qt::AlignHCenter);
 
-    // ── Title ─────────────────────────────────────────────────────────────────
     m_title = new QLabel("No Internet Connection", card);
     m_title->setAlignment(Qt::AlignCenter);
     m_title->setStyleSheet(R"(
@@ -52,7 +48,6 @@ void NoInternetPage::buildUI() {
     )");
     col->addWidget(m_title, 0, Qt::AlignHCenter);
 
-    // ── Subtitle ──────────────────────────────────────────────────────────────
     m_subtitle = new QLabel(
         "Sabre can't reach the internet right now.\n"
         "Check your connection and try again.", card);
@@ -67,12 +62,10 @@ void NoInternetPage::buildUI() {
     )");
     col->addWidget(m_subtitle, 0, Qt::AlignHCenter);
 
-    // ── Button row ────────────────────────────────────────────────────────────
     auto* btnRow = new QHBoxLayout;
     btnRow->setSpacing(12);
     btnRow->setAlignment(Qt::AlignHCenter);
 
-    // Retry button
     m_retryBtn = new QPushButton("Try Again", card);
     m_retryBtn->setFixedSize(130, 38);
     m_retryBtn->setCursor(Qt::PointingHandCursor);
@@ -90,7 +83,6 @@ void NoInternetPage::buildUI() {
     )");
     connect(m_retryBtn, &QPushButton::clicked, this, &NoInternetPage::retryRequested);
 
-    // Offline game button
     m_gameBtn = new QPushButton("Play Offline Game", card);
     m_gameBtn->setFixedSize(160, 38);
     m_gameBtn->setCursor(Qt::PointingHandCursor);

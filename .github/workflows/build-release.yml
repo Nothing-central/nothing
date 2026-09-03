@@ -30,6 +30,7 @@ jobs:
             libqt6webenginewidgets6 \
             libqt6webenginecore6 \
             qt6-webengine-dev-tools \
+            libqt6svg6-dev \
             libgl-dev \
             libegl-dev \
             libglu1-mesa-dev \
@@ -156,6 +157,7 @@ jobs:
             libqt6webenginewidgets6 \
             libqt6webenginecore6 \
             qt6-webengine-dev-tools \
+            libqt6svg6-dev \
             libgl-dev \
             libegl-dev \
             libglu1-mesa-dev \
@@ -279,7 +281,7 @@ jobs:
           host: windows
           target: desktop
           arch: win64_msvc2019_64
-          modules: "qtwebengine qtwebchannel qtpositioning qtwebsockets"
+          modules: "qtwebengine qtwebchannel qtpositioning qtwebsockets qtsvg"
           cache: true
           dir: "C:/Qt"
 
@@ -488,46 +490,3 @@ jobs:
               | sudo tee /etc/apt/sources.list.d/sabre-browser.list
 
             sudo apt update && sudo apt install sabre-browser
-            ```
-
-            ---
-
-            ### Manual install — Linux
-
-            **amd64 .deb**
-            ```sh
-            sudo dpkg -i sabre-browser_*_amd64.deb
-            ```
-
-            **arm64 .deb**
-            ```sh
-            sudo dpkg -i sabre-browser_*_arm64.deb
-            ```
-
-            **tar.gz (no install)**
-            ```sh
-            tar -xzf sabre-browser-*-linux-amd64.tar.gz
-            cd sabre-browser-*
-            ./sabre-browser
-            ```
-
-            ---
-
-            ### Manual install — Windows
-
-            Download the `.zip`, extract it, and run `sabre-browser.exe`. No installer yet — just unzip and go.
-
-            ---
-
-            ### Bug reports
-
-            Email **ernesttechhouse@gmail.com** with steps to reproduce and your distro/OS version.
-
-          files: |
-            release-artifacts/linux-amd64-build/sabre-browser_*.deb
-            release-artifacts/linux-amd64-build/sabre-browser-*.tar.gz
-            release-artifacts/linux-arm64-build/sabre-browser_*.deb
-            release-artifacts/linux-arm64-build/sabre-browser-*.tar.gz
-            release-artifacts/windows-build/sabre-browser-*.zip
-          draft: false
-          prerelease: ${{ steps.reltype.outputs.PRERELEASE == 'true' }}

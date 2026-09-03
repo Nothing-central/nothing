@@ -16,7 +16,6 @@
 #include <QSettings>
 #include <QLinearGradient>
 
-// ─────────────────────────────────────────────────────────────────────────────
 NewTabPage::NewTabPage(SearchController* searchController, QWidget* parent)
     : QWidget(parent), m_searchController(searchController)
 {
@@ -26,7 +25,7 @@ NewTabPage::NewTabPage(SearchController* searchController, QWidget* parent)
     if (m_bgMode == 1 && !m_bgCustomPath.isEmpty())
         m_bgPixmap = QPixmap(m_bgCustomPath);
     else
-        m_bgPixmap = QPixmap(QString(SOURCE_DIR) + "/assets/images/elysiamain.jpeg");
+        m_bgPixmap = QPixmap(":/sabre/images/elysiamain.jpeg");
     buildUI();
 }
 
@@ -69,7 +68,6 @@ void NewTabPage::buildUI() {
     root->setContentsMargins(0, 0, 0, 0);
     root->setSpacing(0);
 
-    // ── Top bar: logo + clock + nav buttons ───────────────────────────────────
     auto* topBar = new QWidget(this);
     topBar->setStyleSheet("background: rgba(0,0,0,160); border-bottom: 1px solid rgba(255,255,255,15);");
     topBar->setFixedHeight(80);
@@ -78,16 +76,14 @@ void NewTabPage::buildUI() {
     tbl->setContentsMargins(28, 0, 28, 0);
     tbl->setSpacing(0);
 
-    // ── Big logo ──────────────────────────────────────────────────────────────
     auto* logoLabel = new QLabel(topBar);
-    QPixmap logo(QString(SOURCE_DIR) + "/assets/icons/mainlogo-nobackground.png");
+    QPixmap logo(":/sabre/icons/mainlogo-nobackground.png");
     if (!logo.isNull())
         logoLabel->setPixmap(logo.scaled(52, 52, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     logoLabel->setStyleSheet("background:transparent; border:none;");
     tbl->addWidget(logoLabel);
     tbl->addSpacing(20);
 
-    // ── Vertical divider ──────────────────────────────────────────────────────
     auto* vdiv = new QFrame(topBar);
     vdiv->setFrameShape(QFrame::VLine);
     vdiv->setFixedHeight(40);
@@ -95,7 +91,6 @@ void NewTabPage::buildUI() {
     tbl->addWidget(vdiv);
     tbl->addSpacing(20);
 
-    // ── Clock + date column ───────────────────────────────────────────────────
     auto* clockCol = new QVBoxLayout;
     clockCol->setSpacing(2);
     clockCol->setAlignment(Qt::AlignVCenter);
@@ -135,7 +130,6 @@ void NewTabPage::buildUI() {
 
     tbl->addStretch(1);
 
-    // ── Calendar widget (day tiles for current week) ──────────────────────────
     auto* calRow = new QHBoxLayout;
     calRow->setSpacing(6);
     calRow->setAlignment(Qt::AlignVCenter);
@@ -179,10 +173,9 @@ void NewTabPage::buildUI() {
     tbl->addLayout(calRow);
     tbl->addSpacing(20);
 
-    // ── Nav buttons ───────────────────────────────────────────────────────────
     auto makeNavBtn = [&](const QString& iconPath, const QString& tooltip) {
         auto* btn = new QPushButton(topBar);
-        btn->setIcon(QIcon(QString(SOURCE_DIR) + "/assets/icons/" + iconPath));
+        btn->setIcon(QIcon(":/sabre/icons/" + iconPath));
         btn->setIconSize(QSize(16, 16));
         btn->setFixedSize(32, 32);
         btn->setCursor(Qt::PointingHandCursor);
@@ -200,7 +193,7 @@ void NewTabPage::buildUI() {
     };
 
     auto* profileBtn  = makeNavBtn("mainlogo-nobackground.png", "Profile");
-    auto* settingsBtn = makeNavBtn("settings.svg",              "Settings");
+    auto* settingsBtn = makeNavBtn("settings.svg", "Settings");
 
     connect(profileBtn,  &QPushButton::clicked, this, &NewTabPage::showProfile);
     connect(settingsBtn, &QPushButton::clicked, this, &NewTabPage::showSettings);
@@ -211,7 +204,6 @@ void NewTabPage::buildUI() {
 
     root->addWidget(topBar);
 
-    // ── Middle: search area ───────────────────────────────────────────────────
     root->addStretch(1);
 
     auto* searchWrap = new QHBoxLayout;
@@ -256,7 +248,6 @@ void NewTabPage::buildUI() {
 
     root->addSpacing(10);
 
-    // ── Engine label ──────────────────────────────────────────────────────────
     m_engineLabel = new QLabel(this);
     m_engineLabel->setAlignment(Qt::AlignHCenter);
     m_engineLabel->setStyleSheet(R"(
@@ -272,7 +263,6 @@ void NewTabPage::buildUI() {
 
     root->addStretch(1);
 
-    // ── Favourites ────────────────────────────────────────────────────────────
     auto* favLabel = new QLabel("FAVOURITES", this);
     favLabel->setAlignment(Qt::AlignHCenter);
     favLabel->setStyleSheet(R"(
@@ -333,7 +323,6 @@ void NewTabPage::buildUI() {
     root->addLayout(favRow);
     root->addStretch(2);
 
-    // ── Bottom bar ────────────────────────────────────────────────────────────
     auto* bottomBar = new QWidget(this);
     bottomBar->setFixedHeight(36);
     bottomBar->setStyleSheet("background: rgba(0,0,0,140); border-top: 1px solid rgba(255,255,255,10);");
@@ -376,7 +365,6 @@ void NewTabPage::buildUI() {
     bbl->addWidget(docsLabel);
     root->addWidget(bottomBar);
 
-    // ── Timer ─────────────────────────────────────────────────────────────────
     m_timer = new QTimer(this);
     m_timer->setInterval(1000);
     connect(m_timer, &QTimer::timeout, this, &NewTabPage::onTick);
@@ -428,7 +416,7 @@ void NewTabPage::setBackgroundMode(int mode, const QString& customPath) {
     m_bgMode       = mode;
     m_bgCustomPath = customPath;
     if (mode == 0)
-        m_bgPixmap = QPixmap(QString(SOURCE_DIR) + "/assets/images/elysiamain.jpeg");
+        m_bgPixmap = QPixmap(":/sabre/images/elysiamain.jpeg");
     else if (mode == 1 && !customPath.isEmpty())
         m_bgPixmap = QPixmap(customPath);
     else

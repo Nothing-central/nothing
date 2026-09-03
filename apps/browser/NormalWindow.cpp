@@ -17,9 +17,6 @@
 #include <QInputDialog>
 #include <QMessageBox>
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  Constructor
-// ════════════════════════════════════════════════════════════════════════════════
 NormalWindow::NormalWindow(QWebEngineProfile* profile,
                            FingerprintController* fingerprint,
                            LangManager* lang,
@@ -28,9 +25,9 @@ NormalWindow::NormalWindow(QWebEngineProfile* profile,
     : QMainWindow(parent), m_profile(profile), m_fingerprint(fingerprint),
       m_lang(lang), m_searchController(searchController)
 {
-    QFontDatabase::addApplicationFont(QString(SOURCE_DIR) + "/assets/fonts/GeistMono-Regular.ttf");
-    QFontDatabase::addApplicationFont(QString(SOURCE_DIR) + "/assets/fonts/Geist-Light.ttf");
-    QFontDatabase::addApplicationFont(QString(SOURCE_DIR) + "/assets/fonts/GeistPixel-Square.ttf");
+    QFontDatabase::addApplicationFont(":/sabre/fonts/GeistMono-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/sabre/fonts/Geist-Light.ttf");
+    QFontDatabase::addApplicationFont(":/sabre/fonts/GeistPixel-Square.ttf");
     setWindowTitle("Sabre Browser");
     resize(1280, 800);
     setStyleSheet("QMainWindow { background:#0e0e0e; }");
@@ -38,9 +35,6 @@ NormalWindow::NormalWindow(QWebEngineProfile* profile,
     addTab("about://home");
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  setupUI
-// ════════════════════════════════════════════════════════════════════════════════
 void NormalWindow::setupUI() {
     auto* central = new QWidget(this);
     auto* root    = new QVBoxLayout(central);
@@ -48,8 +42,6 @@ void NormalWindow::setupUI() {
     root->setSpacing(0);
     setCentralWidget(central);
 
-    // ── Top Bar ──────────────────────────────────────────────────────────────
-    // Bumped from 42 → 50px so the close button has room to breathe
     m_topBar = new QWidget(central);
     m_topBar->setFixedHeight(50);
     m_topBar->setStyleSheet("background:#0c0c0c; border-bottom:1px solid #1a1a1a;");
@@ -59,9 +51,9 @@ void NormalWindow::setupUI() {
 
     auto makeTabBtn = [&](const QString& iconPath, const QString& tooltip) {
         auto* btn = new QPushButton(m_topBar);
-        btn->setIcon(QIcon(QString(SOURCE_DIR) + "/assets/icons/" + iconPath));
+        btn->setIcon(QIcon(":/sabre/icons/" + iconPath));
         btn->setIconSize(QSize(15, 15));
-        btn->setFixedSize(30, 30);          // was 28×28
+        btn->setFixedSize(30, 30);
         btn->setCursor(Qt::PointingHandCursor);
         btn->setToolTip(tooltip);
         btn->setStyleSheet(R"(
@@ -80,7 +72,6 @@ void NormalWindow::setupUI() {
     tbl->addWidget(profileBtn);
     tbl->addWidget(settingsBtn);
 
-    // ── ADDED INCOGNITO BUTTON HERE ──────────────────────────────────────────
     auto* incognitoBtn = makeTabBtn("incognito.svg", "Open Incognito Window");
     connect(incognitoBtn, &QPushButton::clicked, this, [this] {
         auto* w = new IncognitoWindow(m_fingerprint, m_searchController);
@@ -88,7 +79,6 @@ void NormalWindow::setupUI() {
         w->show();
     });
     tbl->addWidget(incognitoBtn);
-    // ──────────────────────────────────────────────────────────────────────────
 
     tbl->addSpacing(4);
     auto* sep = new QFrame(m_topBar);
@@ -98,10 +88,9 @@ void NormalWindow::setupUI() {
     tbl->addWidget(sep);
     tbl->addSpacing(2);
 
-    // ── Tab Bar ───────────────────────────────────────────────────────────────
     m_tabs = new SabreTabBar(m_topBar);
     auto* newTabBtn = new QPushButton("+", m_topBar);
-    newTabBtn->setFixedSize(30, 30);        // was 28×28
+    newTabBtn->setFixedSize(30, 30);
     newTabBtn->setCursor(Qt::PointingHandCursor);
     newTabBtn->setStyleSheet(R"(
         QPushButton { background: transparent; color: #aaaaaa; border: 1px solid #2a2a2a; font-size: 18px; border-radius: 3px; }
@@ -124,10 +113,9 @@ void NormalWindow::setupUI() {
     connect(m_tabs, &SabreTabBar::requestReload,      this, &NormalWindow::onTabReload);
     connect(m_tabs, &SabreTabBar::requestSplitView,   this, &NormalWindow::onTabSplitView);
 
-    // ── Page Stack ────────────────────────────────────────────────────────────
     m_pageStack = new QStackedWidget(central);
     m_stack = new QStackedWidget(m_pageStack);
-    m_pageStack->addWidget(m_stack); // Index 0
+    m_pageStack->addWidget(m_stack);
 
     m_newTabPage = new NewTabPage(m_searchController, m_pageStack);
     connect(m_newTabPage, &NewTabPage::navigateRequested, this, [this](const QString& url) {
@@ -137,17 +125,17 @@ void NormalWindow::setupUI() {
     });
     connect(m_newTabPage, &NewTabPage::showProfile,  this, [this] { if (auto* t = currentTab()) t->navigateTo("about://profile"); });
     connect(m_newTabPage, &NewTabPage::showSettings, this, [this] { if (auto* t = currentTab()) t->navigateTo("about://settings"); });
-    m_pageStack->addWidget(m_newTabPage); // Index 1
+    m_pageStack->addWidget(m_newTabPage);
 
     m_profilePage = new ProfilePage(m_fingerprint, m_pageStack);
-    m_pageStack->addWidget(m_profilePage); // Index 2
+    m_pageStack->addWidget(m_profilePage);
 
     m_settingsPage = new SettingsPage(m_fingerprint, m_profile, m_lang, m_searchController, m_pageStack);
     connect(m_settingsPage, &SettingsPage::profileChanged,       this, [this](const QString&) { m_profilePage->refresh(); });
     connect(m_settingsPage, &SettingsPage::backgroundModeChanged, m_newTabPage, &NewTabPage::setBackgroundMode);
     if (m_searchController)
         connect(m_searchController, &SearchController::engineChanged, m_newTabPage, &NewTabPage::refreshEngineLabel);
-    m_pageStack->addWidget(m_settingsPage); // Index 3
+    m_pageStack->addWidget(m_settingsPage);
 
     m_noInternetPage = new NoInternetPage(m_pageStack);
     connect(m_noInternetPage, &NoInternetPage::retryRequested, this, [this] {
@@ -155,23 +143,19 @@ void NormalWindow::setupUI() {
         if (auto* t = currentTab()) t->reload();
     });
     connect(m_noInternetPage, &NoInternetPage::playOfflineGame, this, [this] { m_pageStack->setCurrentIndex(5); });
-    m_pageStack->addWidget(m_noInternetPage); // Index 4
+    m_pageStack->addWidget(m_noInternetPage);
 
     m_offlineGamePage = new OfflineGamePage(m_pageStack);
     connect(m_offlineGamePage, &OfflineGamePage::backRequested, this, [this] { m_pageStack->setCurrentIndex(4); });
-    m_pageStack->addWidget(m_offlineGamePage); // Index 5
+    m_pageStack->addWidget(m_offlineGamePage);
 
-    // ── Adblock Page ──────────────────────────────────────────────────────────
     m_adblockPage = new AdblockPage(m_pageStack);
-    m_pageStack->addWidget(m_adblockPage); // Index 6
+    m_pageStack->addWidget(m_adblockPage);
 
     root->addWidget(m_topBar);
     root->addWidget(m_pageStack, 1);
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  Tab creation
-// ════════════════════════════════════════════════════════════════════════════════
 void NormalWindow::addTab(const QString& url) {
     addTabAt(m_stack->count(), url);
 }
@@ -191,11 +175,7 @@ void NormalWindow::addTabAt(int index, const QString& url) {
     QTimer::singleShot(0, tab, [tab, url]() { tab->navigateTo(url); });
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  closeTab  — handles both normal tabs and split-group containers
-// ════════════════════════════════════════════════════════════════════════════════
 void NormalWindow::closeTab(int index) {
-    // Is this tab a split-group container?
     if (SplitGroup* grp = splitGroupForTabIndex(index)) {
         teardownSplitGroup(grp);
         return;
@@ -207,14 +187,10 @@ void NormalWindow::closeTab(int index) {
     m_tabs->removeTab(index);
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  switchTab
-// ════════════════════════════════════════════════════════════════════════════════
 void NormalWindow::switchTab(int index) {
     if (index < 0 || index >= m_stack->count()) return;
     m_stack->setCurrentIndex(index);
 
-    // If this is a split group, sync the url bar to the active pane
     if (SplitGroup* grp = splitGroupForTabIndex(index)) {
         BrowserTab* active = (grp->activePane == 0) ? grp->paneA : grp->paneB;
         if (active) onTabUrlChanged(active->currentUrl());
@@ -223,9 +199,6 @@ void NormalWindow::switchTab(int index) {
     if (auto* tab = currentTab()) onTabUrlChanged(tab->currentUrl());
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  currentTab — returns the active BrowserTab regardless of split state
-// ════════════════════════════════════════════════════════════════════════════════
 BrowserTab* NormalWindow::currentTab() const {
     int idx = m_tabs->currentIndex();
     if (idx < 0) return nullptr;
@@ -235,9 +208,6 @@ BrowserTab* NormalWindow::currentTab() const {
     return qobject_cast<BrowserTab*>(m_stack->widget(idx));
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  showNoInternetPage
-// ════════════════════════════════════════════════════════════════════════════════
 void NormalWindow::showNoInternetPage() {
     m_pageStack->setCurrentIndex(4);
     int idx = m_tabs->currentIndex();
@@ -252,9 +222,6 @@ void NormalWindow::showInternalPage(const QString& url) {
     else if (url == "about://adblock")   m_pageStack->setCurrentIndex(6);
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  updateTabData
-// ════════════════════════════════════════════════════════════════════════════════
 void NormalWindow::updateTabData(int index) {
     auto* tab = qobject_cast<BrowserTab*>(m_stack->widget(index));
     if (!tab) return;
@@ -264,9 +231,6 @@ void NormalWindow::updateTabData(int index) {
     m_tabs->setTabData(index, data);
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  Split group helpers
-// ════════════════════════════════════════════════════════════════════════════════
 SplitGroup* NormalWindow::splitGroupForTabIndex(int index) const {
     for (SplitGroup* grp : m_splitGroups)
         if (grp->mainTabIndex == index) return grp;
@@ -280,12 +244,10 @@ void NormalWindow::updateSplitTabLabel(SplitGroup* grp) {
     if (titleA.isEmpty()) titleA = "New Tab";
     if (titleB.isEmpty()) titleB = "New Tab";
 
-    // Truncate each pane title so combined label stays sane
     auto trunc = [](const QString& s, int n) {
         return s.length() > n ? s.left(n) + "…" : s;
     };
 
-    // Active pane gets highlighted with brackets, inactive is dimmer
     QString label;
     if (grp->activePane == 0)
         label = QString("⊞ [%1] · %2").arg(trunc(titleA, 14), trunc(titleB, 14));
@@ -299,13 +261,10 @@ void NormalWindow::updateSplitTabLabel(SplitGroup* grp) {
 
 void NormalWindow::teardownSplitGroup(SplitGroup* grp) {
     if (!grp) return;
-    // Put the first pane back as a normal standalone tab in the same slot
     int idx = grp->mainTabIndex;
 
-    // Remove the container widget from m_stack (it's the QSplitter)
     m_stack->removeWidget(grp->container);
 
-    // Promote pane A to a regular tab in the same position
     if (grp->paneA) {
         m_stack->insertWidget(idx, grp->paneA);
         QString title = grp->paneA->currentTitle();
@@ -314,36 +273,28 @@ void NormalWindow::teardownSplitGroup(SplitGroup* grp) {
         m_stack->setCurrentIndex(idx);
     }
 
-    // Pane B becomes a new tab right after
     if (grp->paneB) {
         m_stack->insertWidget(idx + 1, grp->paneB);
         m_tabs->insertTab(idx + 1, grp->paneB->currentTitle().isEmpty() ? "New Tab" : grp->paneB->currentTitle());
     }
 
-    // The splitter container itself (without the panes, since we reparented them)
     grp->container->deleteLater();
     m_splitGroups.removeOne(grp);
     delete grp;
     m_tabs->setCurrentIndex(idx);
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  onTabSplitView — THE main event. Tab B → B(i) B(ii) inline in the tab bar.
-// ════════════════════════════════════════════════════════════════════════════════
 void NormalWindow::onTabSplitView(int index) {
-    // Don't split an already-split tab
     if (splitGroupForTabIndex(index)) return;
 
     auto* existingTab = qobject_cast<BrowserTab*>(m_stack->widget(index));
     if (!existingTab) return;
 
-    // ── Ask the user: combine with an existing tab, or open new home page? ──
-    // Build a list of other tabs the user could merge with
     QStringList choices;
     QList<int>  choiceIndices;
     for (int i = 0; i < m_tabs->count(); ++i) {
         if (i == index) continue;
-        if (splitGroupForTabIndex(i)) continue; // skip already-split groups
+        if (splitGroupForTabIndex(i)) continue;
         choices << QString("[%1] %2").arg(i + 1).arg(m_tabs->tabText(i));
         choiceIndices << i;
     }
@@ -358,7 +309,6 @@ void NormalWindow::onTabSplitView(int index) {
     );
     if (!ok) return;
 
-    // ── Create the QSplitter container ───────────────────────────────────────
     auto* splitter = new QSplitter(Qt::Horizontal);
     splitter->setHandleWidth(3);
     splitter->setStyleSheet(R"(
@@ -368,22 +318,17 @@ void NormalWindow::onTabSplitView(int index) {
     )");
     splitter->setChildrenCollapsible(false);
 
-    // ── Pane A: the original tab ─────────────────────────────────────────────
     BrowserTab* paneA = existingTab;
-
-    // ── Pane B: either an existing tab or a brand-new one ────────────────────
     BrowserTab* paneB = nullptr;
     int chosenChoiceIdx = choices.indexOf(chosen);
     bool isNewPage = (chosen == "Open a new home page in split pane");
 
     if (!isNewPage && chosenChoiceIdx >= 0 && chosenChoiceIdx < choiceIndices.size()) {
         int otherIndex = choiceIndices[chosenChoiceIdx];
-        // Pull that tab out of m_stack and m_tabs
         paneB = qobject_cast<BrowserTab*>(m_stack->widget(otherIndex));
         if (paneB) {
             m_stack->removeWidget(paneB);
             m_tabs->removeTab(otherIndex);
-            // If the removed tab was before `index`, our index shifted down
             if (otherIndex < index) index--;
         }
     }
@@ -396,10 +341,8 @@ void NormalWindow::onTabSplitView(int index) {
         QTimer::singleShot(0, paneB, [paneB]() { paneB->navigateTo("about://home"); });
     }
 
-    // ── Remove paneA from m_stack (we'll replace its slot with the splitter) ─
     m_stack->removeWidget(paneA);
 
-    // ── Build the group ───────────────────────────────────────────────────────
     auto* grp        = new SplitGroup;
     grp->mainTabIndex = index;
     grp->container   = splitter;
@@ -408,18 +351,14 @@ void NormalWindow::onTabSplitView(int index) {
     grp->activePane  = 0;
     m_splitGroups.append(grp);
 
-    // Add both panes to the splitter
     splitter->addWidget(paneA);
     splitter->addWidget(paneB);
     splitter->setSizes({ width() / 2, width() / 2 });
 
-    // Replace the tab's widget in m_stack with the splitter
     m_stack->insertWidget(index, splitter);
     m_stack->setCurrentIndex(index);
     m_tabs->setCurrentIndex(index);
 
-    // ── Active-pane tracking ─────────────────────────────────────────────────
-    // When pane A's URL or title changes, mark it active and refresh label
     connect(paneA, &BrowserTab::urlChanged, this, [this, grp](const QString&) {
         grp->activePane = 0;
         updateSplitTabLabel(grp);
@@ -437,20 +376,16 @@ void NormalWindow::onTabSplitView(int index) {
         updateSplitTabLabel(grp);
     });
 
-    // Set the initial label
     updateSplitTabLabel(grp);
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  Standard tab management slots (unchanged logic, just cleaner)
-// ════════════════════════════════════════════════════════════════════════════════
 void NormalWindow::onTabPin(int index) {
     auto* tab = qobject_cast<BrowserTab*>(m_stack->widget(index));
     if (!tab) return;
     tab->setPinned(true);
     m_tabs->setTabText(index, "  ");
     m_tabs->setTabIcon(index, tab->webView()->icon().isNull()
-        ? QIcon(QString(SOURCE_DIR) + "/assets/icons/globe.svg") : tab->webView()->icon());
+        ? QIcon(":/sabre/icons/globe.svg") : tab->webView()->icon());
     m_tabs->setTabToolTip(index, tab->currentTitle());
     m_tabs->moveTab(index, 0);
     updateTabData(0);
@@ -479,7 +414,7 @@ void NormalWindow::onTabMute(int index) {
     auto* tab = qobject_cast<BrowserTab*>(m_stack->widget(index));
     if (!tab) return;
     tab->setMuted(true);
-    m_tabs->setTabIcon(index, QIcon(QString(SOURCE_DIR) + "/assets/icons/mute.svg"));
+    m_tabs->setTabIcon(index, QIcon(":/sabre/icons/mute.svg"));
     updateTabData(index);
 }
 
@@ -488,12 +423,11 @@ void NormalWindow::onTabUnmute(int index) {
     if (!tab) return;
     tab->setMuted(false);
     m_tabs->setTabIcon(index, tab->webView()->icon().isNull()
-        ? QIcon(QString(SOURCE_DIR) + "/assets/icons/globe.svg") : tab->webView()->icon());
+        ? QIcon(":/sabre/icons/globe.svg") : tab->webView()->icon());
     updateTabData(index);
 }
 
 void NormalWindow::onTabReload(int index) {
-    // Handle split group reload (reloads active pane)
     if (SplitGroup* grp = splitGroupForTabIndex(index)) {
         BrowserTab* active = (grp->activePane == 0) ? grp->paneA : grp->paneB;
         if (active) active->reload();
@@ -503,9 +437,6 @@ void NormalWindow::onTabReload(int index) {
     if (tab) tab->reload();
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-//  URL / Title change propagation
-// ════════════════════════════════════════════════════════════════════════════════
 void NormalWindow::onTabUrlChanged(const QString& url) {
     auto* tab = qobject_cast<BrowserTab*>(sender());
     if (!tab) return;
@@ -515,12 +446,9 @@ void NormalWindow::onTabUrlChanged(const QString& url) {
     };
     if (url.isEmpty() || url == "about:blank") return;
 
-    // Check if this tab belongs to a split group
     for (SplitGroup* grp : m_splitGroups) {
         if (grp->paneA == tab || grp->paneB == tab) {
-            // Internal pages in a split pane: just handle the label, don't fullscreen
             if (internal.contains(url)) {
-                // Show the internal page only if this is the active pane and tab is selected
                 if (m_tabs->currentIndex() == grp->mainTabIndex) {
                     if ((grp->paneA == tab && grp->activePane == 0) ||
                         (grp->paneB == tab && grp->activePane == 1)) {
@@ -535,7 +463,6 @@ void NormalWindow::onTabUrlChanged(const QString& url) {
         }
     }
 
-    // Regular tab
     if (internal.contains(url)) showInternalPage(url);
     else m_pageStack->setCurrentIndex(0);
 
@@ -555,7 +482,6 @@ void NormalWindow::onTabTitleChanged(const QString& title) {
     auto* tab = qobject_cast<BrowserTab*>(sender());
     if (!tab || title.isEmpty()) return;
 
-    // Check split groups first
     for (SplitGroup* grp : m_splitGroups) {
         if (grp->paneA == tab || grp->paneB == tab) {
             updateSplitTabLabel(grp);
@@ -563,7 +489,6 @@ void NormalWindow::onTabTitleChanged(const QString& title) {
         }
     }
 
-    // Regular tab
     int idx = m_stack->indexOf(tab);
     if (idx >= 0 && !m_tabs->tabData(idx).toMap().value("pinned", false).toBool())
         m_tabs->setTabText(idx, title.length() > 28 ? title.left(28) + "…" : title);

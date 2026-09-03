@@ -33,7 +33,6 @@ protected:
     bool acceptNavigationRequest(const QUrl& url, NavigationType type, bool isMainFrame) override {
         if (!isMainFrame) return true;
         QString s = url.toString();
-        // NEW: Added about://downloads to internal navigation
         if (url.scheme() == "about" && (s == "about://home" || s == "about://profile" || s == "about://settings" || s == "about://fossils" || s == "about://downloads" || s == "about://adblock")) {
             emit internalNavigation(s);
             return false;
@@ -82,7 +81,7 @@ void BrowserTab::setupUI() {
 
     auto makeBtn = [&](const QString& iconPath) {
         auto* btn = new QPushButton(toolbar);
-        btn->setIcon(QIcon(QString(SOURCE_DIR) + "/assets/icons/" + iconPath));
+        btn->setIcon(QIcon(":/sabre/icons/" + iconPath));
         btn->setIconSize(QSize(18, 18));
         btn->setFixedSize(32, 32);
         btn->setCursor(Qt::PointingHandCursor);
@@ -98,11 +97,11 @@ void BrowserTab::setupUI() {
     m_fwdBtn     = makeBtn("forward.svg");
     m_reloadBtn  = makeBtn("reload.svg");
     m_fossilBtn  = makeBtn("fossil.svg");
-    m_downloadBtn = makeBtn("download.svg"); // NEW: Download Button
+    m_downloadBtn = makeBtn("download.svg");
 
     m_fossilBtn->setEnabled(false);
     m_fossilBtn->setToolTip("Save this page for offline reading");
-    m_downloadBtn->setToolTip("Downloads"); // NEW
+    m_downloadBtn->setToolTip("Downloads");
 
     m_backBtn->setEnabled(false);
     m_fwdBtn->setEnabled(false);
@@ -130,12 +129,11 @@ void BrowserTab::setupUI() {
     tl->addWidget(m_fwdBtn);
     tl->addWidget(m_reloadBtn);
     tl->addWidget(m_fossilBtn);
-    tl->addWidget(m_downloadBtn); // NEW: Added to toolbar
+    tl->addWidget(m_downloadBtn);
     tl->addWidget(m_secIcon);
     tl->addWidget(m_leafIcon);
     tl->addWidget(m_urlBar, 1);
 
-    // NEW: Connect download button to toggle popup
     connect(m_downloadBtn, &QPushButton::clicked, this, &BrowserTab::toggleDownloadPanel);
 
     m_view = new QWebEngineView(this);
@@ -168,7 +166,7 @@ void BrowserTab::setupProfile(QWebEngineProfile* profile) {
             m_stack->setCurrentWidget(m_view);
             m_view->setHtml(R"(<body style='background:#0e0e0e; color:#ccc; font-family:sans-serif; padding:40px;'><h1>🦴 Fossil Cache</h1><p>Your downloaded offline pages will appear here.</p></body>)", QUrl("about://fossils"));
         }
-        else if (url == "about://downloads") { // NEW: Handle full download page
+        else if (url == "about://downloads") {
             if (!m_downloadsPage) {
                 m_downloadsPage = new DownloadsPage(this);
                 m_stack->addWidget(m_downloadsPage);
@@ -213,11 +211,11 @@ void BrowserTab::setupProfile(QWebEngineProfile* profile) {
 
 void BrowserTab::setupFormRecovery() {
     m_view->page()->setWebChannel(m_webChannel);
-    QFile channelFile(":/qwebchannel.js");
+    QFile channelFile(":/sabre/qwebchannel.js");
     QString channelJs = channelFile.open(QFile::ReadOnly) ? QString(channelFile.readAll()) : QString();
     if (channelFile.isOpen()) channelFile.close();
 
-    QFile recoveryFile(":/js/form_recovery.js");
+    QFile recoveryFile(":/sabre/js/form_recovery.js");
     QString recoveryJs = recoveryFile.open(QFile::ReadOnly) ? QString(recoveryFile.readAll()) : QString();
     if (recoveryFile.isOpen()) recoveryFile.close();
 
@@ -231,11 +229,11 @@ void BrowserTab::setupFormRecovery() {
 }
 
 void BrowserTab::setupFossilCache() {
-    QFile channelFile(":/qwebchannel.js");
+    QFile channelFile(":/sabre/qwebchannel.js");
     QString channelJs = channelFile.open(QFile::ReadOnly) ? QString(channelFile.readAll()) : QString();
     if (channelFile.isOpen()) channelFile.close();
 
-    QFile fossilFile(":/js/fossilize.js");
+    QFile fossilFile(":/sabre/js/fossilize.js");
     QString fossilJs = fossilFile.open(QFile::ReadOnly) ? QString(fossilFile.readAll()) : QString();
     if (fossilFile.isOpen()) fossilFile.close();
 
@@ -249,11 +247,11 @@ void BrowserTab::setupFossilCache() {
 }
 
 void BrowserTab::injectHeuristic() {
-    QFile channelFile(":/qwebchannel.js");
+    QFile channelFile(":/sabre/qwebchannel.js");
     QString channelJs = channelFile.open(QFile::ReadOnly) ? QString(channelFile.readAll()) : QString();
     if (channelFile.isOpen()) channelFile.close();
 
-    QFile heuristicFile(":/js/fossil_heuristic.js");
+    QFile heuristicFile(":/sabre/js/fossil_heuristic.js");
     QString heuristicJs = heuristicFile.open(QFile::ReadOnly) ? QString(heuristicFile.readAll()) : QString();
     if (heuristicFile.isOpen()) heuristicFile.close();
 
@@ -329,7 +327,7 @@ void BrowserTab::onTitleChanged(const QString& title) {
 
 void BrowserTab::onLoadStarted() {
     m_loading = true;
-    m_reloadBtn->setIcon(QIcon(QString(SOURCE_DIR) + "/assets/icons/close.svg"));
+    m_reloadBtn->setIcon(QIcon(":/sabre/icons/close.svg"));
     m_progress->setValue(0);
     m_progress->show();
     emit loadingChanged(true);
@@ -337,7 +335,7 @@ void BrowserTab::onLoadStarted() {
 
 void BrowserTab::onLoadFinished(bool ok) {
     m_loading = false;
-    m_reloadBtn->setIcon(QIcon(QString(SOURCE_DIR) + "/assets/icons/reload.svg"));
+    m_reloadBtn->setIcon(QIcon(":/sabre/icons/reload.svg"));
     m_progress->hide();
     m_progress->setValue(0);
     updateNavButtons();
@@ -437,16 +435,13 @@ void BrowserTab::onHeuristicReported(const QString& status) {
     }
 }
 
-// ── NEW: Supercharged Downloads Logic ───────────────────────────────────────
 void BrowserTab::toggleDownloadPanel() {
     if (!m_downloadPanel) {
         m_downloadPanel = new DownloadPanel(this);
     }
-    // This shows the popup floating BELOW the button, completely decoupled from the layout
     m_downloadPanel->showRelativeTo(m_downloadBtn);
 }
 
-// ── NEW: Tab State ────────────────────────────────────────────────────────────
 bool BrowserTab::isPinned() const { return m_pinned; }
 
 void BrowserTab::setPinned(bool pinned) {

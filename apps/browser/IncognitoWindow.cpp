@@ -1,3 +1,4 @@
+// ═══════════════════════════════════════════ IncognitoWindow.cpp ═════════════════════════════════════
 #include "IncognitoWindow.h"
 #include "FingerprintController.h"
 #include "SearchController.h"
@@ -16,9 +17,6 @@
 #include <QWebEngineScript>
 #include <QCloseEvent>
 
-// ════════════════════════════════════════════════════════════════════════════════
-// IncognitoHomePage
-// ════════════════════════════════════════════════════════════════════════════════
 IncognitoHomePage::IncognitoHomePage(QWidget* parent) : QWidget(parent) {
     setStyleSheet("background: #0a0008;");
     auto* layout = new QVBoxLayout(this);
@@ -26,7 +24,7 @@ IncognitoHomePage::IncognitoHomePage(QWidget* parent) : QWidget(parent) {
     layout->setSpacing(20);
 
     auto* logo = new QLabel(this);
-    QPixmap pix(QString(SOURCE_DIR) + "/assets/icons/incognitologonobg.png");
+    QPixmap pix(":/sabre/icons/incognitologonobg.png");
     logo->setPixmap(pix.scaled(120, 120, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     logo->setAlignment(Qt::AlignCenter);
     layout->addWidget(logo);
@@ -58,9 +56,6 @@ IncognitoHomePage::IncognitoHomePage(QWidget* parent) : QWidget(parent) {
     });
 }
 
-// ════════════════════════════════════════════════════════════════════════════════
-// IncognitoWindow
-// ════════════════════════════════════════════════════════════════════════════════
 IncognitoWindow::IncognitoWindow(FingerprintController* fingerprint,
                                  SearchController* searchController,
                                  QWidget* parent)
@@ -110,7 +105,7 @@ void IncognitoWindow::setupUI() {
     tbl->setSpacing(4);
 
     auto* logoLabel = new QLabel(m_topBar);
-    logoLabel->setPixmap(QIcon(QString(SOURCE_DIR) + "/assets/icons/incognito.svg").pixmap(16, 16));
+    logoLabel->setPixmap(QIcon(":/sabre/icons/incognito.svg").pixmap(16, 16));
     logoLabel->setFixedSize(16, 16);
     tbl->addWidget(logoLabel);
 
@@ -118,7 +113,7 @@ void IncognitoWindow::setupUI() {
 
     auto makeBtn = [&](const QString& iconPath, const QString& tooltip) {
         auto* btn = new QPushButton(m_topBar);
-        btn->setIcon(QIcon(QString(SOURCE_DIR) + "/assets/icons/" + iconPath));
+        btn->setIcon(QIcon(":/sabre/icons/" + iconPath));
         btn->setIconSize(QSize(15, 15));
         btn->setFixedSize(30, 30);
         btn->setCursor(Qt::PointingHandCursor);
@@ -178,13 +173,13 @@ void IncognitoWindow::setupUI() {
             tab->navigateTo(url);
         }
     });
-    m_pageStack->addWidget(m_incognitoHomePage); // Index 0
+    m_pageStack->addWidget(m_incognitoHomePage);
 
     m_stack = new QStackedWidget(m_pageStack);
-    m_pageStack->addWidget(m_stack); // Index 1
+    m_pageStack->addWidget(m_stack);
 
     m_adblockPage = new AdblockPage(m_pageStack);
-    m_pageStack->addWidget(m_adblockPage); // Index 2
+    m_pageStack->addWidget(m_adblockPage);
 
     root->addWidget(m_topBar);
     root->addWidget(m_pageStack, 1);

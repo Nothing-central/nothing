@@ -18,13 +18,13 @@ AdblockInterceptor::AdblockInterceptor(QObject* parent)
     if (QFile::exists(localEasyList)) {
         filesToLoad << localEasyList;
     } else {
-        filesToLoad << ":/filters/easylist.txt";
+        filesToLoad << ":/sabre/filters/easylist.txt";
     }
 
     if (QFile::exists(localEasyPrivacy)) {
         filesToLoad << localEasyPrivacy;
     } else {
-        filesToLoad << ":/filters/easyprivacy.txt";
+        filesToLoad << ":/sabre/filters/easyprivacy.txt";
     }
 
     for (const QString& filePath : filesToLoad) {

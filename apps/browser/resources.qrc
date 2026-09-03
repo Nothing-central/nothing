@@ -1,15 +1,52 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
-    <qresource prefix="/">
-        <!-- The official QWebChannel bridge -->
+    <qresource prefix="/sabre">
+        <!-- QWebChannel bridge -->
         <file>qwebchannel.js</file>
 
-        <!-- Your custom feature scripts -->
+        <!-- JS Scripts -->
         <file alias="js/form_recovery.js">assets/js/form_recovery.js</file>
         <file alias="js/fossilize.js">assets/js/fossilize.js</file>
         <file alias="js/fossil_heuristic.js">assets/js/fossil_heuristic.js</file>
 
-        <!-- Adblock Filter Lists (Initial Bundle) -->
+        <!-- Icons -->
+        <file alias="icons/back.svg">assets/icons/back.svg</file>
+        <file alias="icons/bookmark-filled.svg">assets/icons/bookmark-filled.svg</file>
+        <file alias="icons/bookmark.svg">assets/icons/bookmark.svg</file>
+        <file alias="icons/close.svg">assets/icons/close.svg</file>
+        <file alias="icons/download.svg">assets/icons/download.svg</file>
+        <file alias="icons/forward.svg">assets/icons/forward.svg</file>
+        <file alias="icons/fossil.svg">assets/icons/fossil.svg</file>
+        <file alias="icons/incognitologonobg.png">assets/icons/incognitologonobg.png</file>
+        <file alias="icons/incognitologowithbg.jpeg">assets/icons/incognitologowithbg.jpeg</file>
+        <file alias="icons/incognito.svg">assets/icons/incognito.svg</file>
+        <file alias="icons/mainlogo.jpeg">assets/icons/mainlogo.jpeg</file>
+        <file alias="icons/mainlogo-nobackground.png">assets/icons/mainlogo-nobackground.png</file>
+        <file alias="icons/mainlogo-rectangle.jpeg">assets/icons/mainlogo-rectangle.jpeg</file>
+        <file alias="icons/menu.svg">assets/icons/menu.svg</file>
+        <file alias="icons/nointernetimagewithbackground.jpeg">assets/icons/nointernetimagewithbackground.jpeg</file>
+        <file alias="icons/nointernetimagewithoutbackground.png">assets/icons/nointernetimagewithoutbackground.png</file>
+        <file alias="icons/reload.svg">assets/icons/reload.svg</file>
+        <file alias="icons/settings.svg">assets/icons/settings.svg</file>
+
+        <!-- Images -->
+        <file alias="images/elysiamain.jpeg">assets/images/elysiamain.jpeg</file>
+        <file alias="images/mainlogo-rectangle.jpeg">assets/images/mainlogo-rectangle.jpeg</file>
+
+        <!-- Fonts -->
+        <file alias="fonts/Geist-Light.ttf">assets/fonts/Geist-Light.ttf</file>
+        <file alias="fonts/Geist-Medium.ttf">assets/fonts/Geist-Medium.ttf</file>
+        <file alias="fonts/Geist-Regular.ttf">assets/fonts/Geist-Regular.ttf</file>
+        <file alias="fonts/GeistMono-Light.ttf">assets/fonts/GeistMono-Light.ttf</file>
+        <file alias="fonts/GeistMono-Regular.ttf">assets/fonts/GeistMono-Regular.ttf</file>
+        <file alias="fonts/GeistPixel-Circle.ttf">assets/fonts/GeistPixel-Circle.ttf</file>
+        <file alias="fonts/GeistPixel-Square.ttf">assets/fonts/GeistPixel-Square.ttf</file>
+        <file alias="fonts/NotoSansArabic-Regular.ttf">assets/fonts/NotoSansArabic-Regular.ttf</file>
+        <file alias="fonts/NotoSans-Bold.ttf">assets/fonts/NotoSans-Bold.ttf</file>
+        <file alias="fonts/NotoSansCJK-Regular.ttc">assets/fonts/NotoSansCJK-Regular.ttc</file>
+        <file alias="fonts/NotoSans-Regular.ttf">assets/fonts/NotoSans-Regular.ttf</file>
+
+        <!-- Adblock Filter Lists -->
         <file>filters/easylist.txt</file>
         <file>filters/easyprivacy.txt</file>
     </qresource>
