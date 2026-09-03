@@ -11,10 +11,6 @@ qt_standard_project_setup()
 set(NOTHING_LANG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../packages/lang/langs" CACHE PATH "Path to language JSON files" FORCE)
 set(PROFILE_BUILD_QT_LAYER ON CACHE BOOL "" FORCE)
 
-# ── MSVC zero-size array fix for .inc files ──────────────────────────────────
-if(MSVC)
-    add_compile_options(/permissive)
-endif()
 
 add_subdirectory(../../packages/profile ${CMAKE_BINARY_DIR}/packages/profile)
 add_subdirectory(../../packages/search ${CMAKE_BINARY_DIR}/packages/search)

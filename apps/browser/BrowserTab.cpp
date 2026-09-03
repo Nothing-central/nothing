@@ -214,11 +214,11 @@ void BrowserTab::setupProfile(QWebEngineProfile* profile) {
 void BrowserTab::setupFormRecovery() {
     m_view->page()->setWebChannel(m_webChannel);
     QFile channelFile(":/qwebchannel.js");
-    QString channelJs = channelFile.open(QFile::ReadOnly) ? channelFile.readAll() : "";
+    QString channelJs = channelFile.open(QFile::ReadOnly) ? QString(channelFile.readAll()) : QString();
     if (channelFile.isOpen()) channelFile.close();
 
     QFile recoveryFile(":/js/form_recovery.js");
-    QString recoveryJs = recoveryFile.open(QFile::ReadOnly) ? recoveryFile.readAll() : "";
+    QString recoveryJs = recoveryFile.open(QFile::ReadOnly) ? QString(recoveryFile.readAll()) : QString();
     if (recoveryFile.isOpen()) recoveryFile.close();
 
     QWebEngineScript script;
@@ -232,11 +232,11 @@ void BrowserTab::setupFormRecovery() {
 
 void BrowserTab::setupFossilCache() {
     QFile channelFile(":/qwebchannel.js");
-    QString channelJs = channelFile.open(QFile::ReadOnly) ? channelFile.readAll() : "";
+    QString channelJs = channelFile.open(QFile::ReadOnly) ? QString(channelFile.readAll()) : QString();
     if (channelFile.isOpen()) channelFile.close();
 
     QFile fossilFile(":/js/fossilize.js");
-    QString fossilJs = fossilFile.open(QFile::ReadOnly) ? fossilFile.readAll() : "";
+    QString fossilJs = fossilFile.open(QFile::ReadOnly) ? QString(fossilFile.readAll()) : QString();
     if (fossilFile.isOpen()) fossilFile.close();
 
     QWebEngineScript script;
@@ -250,11 +250,11 @@ void BrowserTab::setupFossilCache() {
 
 void BrowserTab::injectHeuristic() {
     QFile channelFile(":/qwebchannel.js");
-    QString channelJs = channelFile.open(QFile::ReadOnly) ? channelFile.readAll() : "";
+    QString channelJs = channelFile.open(QFile::ReadOnly) ? QString(channelFile.readAll()) : QString();
     if (channelFile.isOpen()) channelFile.close();
 
     QFile heuristicFile(":/js/fossil_heuristic.js");
-    QString heuristicJs = heuristicFile.open(QFile::ReadOnly) ? heuristicFile.readAll() : "";
+    QString heuristicJs = heuristicFile.open(QFile::ReadOnly) ? QString(heuristicFile.readAll()) : QString();
     if (heuristicFile.isOpen()) heuristicFile.close();
 
     m_view->page()->runJavaScript(channelJs + "\n" + heuristicJs, QWebEngineScript::MainWorld);
