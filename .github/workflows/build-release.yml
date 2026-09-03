@@ -357,6 +357,10 @@ jobs:
         with:
           path: release-artifacts
 
+      # ── NEW: Debug step to see artifact structure ──────────────
+      - name: Debug artifact structure
+        run: find release-artifacts -type f
+
       - name: Install apt repo tools
         run: sudo apt-get install -y dpkg-dev apt-utils gnupg
 
