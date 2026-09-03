@@ -170,6 +170,6 @@
 [[maybe_unused]] static const char* kLangPack_MFR_Android12_Higher[] = {
     "One UI Sans KR VF"};
 
-[[maybe_unused]] static const char* kLangPackFonts[] = {};
+[[maybe_unused]] static const char* kLangPackFonts[] = {nullptr};
 
 #endif

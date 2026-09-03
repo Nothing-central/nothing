@@ -1066,6 +1066,6 @@
     "Vazirmatn",
 };
 
-[[maybe_unused]] static const char* kLangPackFonts[] = {};
+[[maybe_unused]] static const char* kLangPackFonts[] = {nullptr};
 
 #endif
